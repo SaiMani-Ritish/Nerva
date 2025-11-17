@@ -237,5 +237,5 @@ Inspired by:
 
 ---
 
-**Built with ❤️ for the age of language-native computing**
+**Building to understand low level programming for the age of language-native computing**
 
