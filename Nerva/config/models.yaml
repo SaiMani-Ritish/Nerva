@@ -1,0 +1,58 @@
+# Model Registry
+# Define available models for Nerva
+
+models:
+  # Local models (llama.cpp)
+  - name: llama-3-8b
+    type: local
+    provider: llama.cpp
+    model_path: ./models/llama-3-8b-q4.gguf
+    context_size: 8192
+    gpu_layers: 35
+    enabled: true
+
+  - name: llama-3-70b
+    type: local
+    provider: llama.cpp
+    model_path: ./models/llama-3-70b-q4.gguf
+    context_size: 8192
+    gpu_layers: 40
+    enabled: false  # Requires high-end GPU
+
+  # Cloud models (OpenAI)
+  - name: gpt-4
+    type: cloud
+    provider: openai
+    model_id: gpt-4-turbo-preview
+    context_size: 128000
+    cost_per_token: 0.00003
+    enabled: true
+
+  - name: gpt-3.5-turbo
+    type: cloud
+    provider: openai
+    model_id: gpt-3.5-turbo
+    context_size: 16384
+    cost_per_token: 0.000002
+    enabled: true
+
+  # Cloud models (Anthropic)
+  - name: claude-3.5-sonnet
+    type: cloud
+    provider: anthropic
+    model_id: claude-3-5-sonnet-20241022
+    context_size: 200000
+    cost_per_token: 0.000015
+    enabled: true
+
+# Default model selection
+default:
+  local: llama-3-8b
+  cloud: gpt-4
+
+# Fallback strategy
+fallback:
+  enabled: true
+  timeout_ms: 5000  # Try local for 5s before falling back
+  quality_threshold: 0.8
+

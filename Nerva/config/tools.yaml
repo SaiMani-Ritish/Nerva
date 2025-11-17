@@ -1,0 +1,45 @@
+# Tool Configuration
+# Define which tools are enabled and their settings
+
+tools:
+  # Filesystem tool
+  fs:
+    enabled: true
+    description: "Filesystem operations (read, write, list, search)"
+    # Inherits security policies from policies.yaml
+
+  # Web tool
+  web:
+    enabled: true
+    description: "HTTP requests and web search"
+    search_provider: duckduckgo  # or: google, bing, searxng
+    user_agent: "Nerva/0.1.0"
+    # Inherits security policies from policies.yaml
+
+  # Process tool
+  process:
+    enabled: true
+    description: "Execute system commands"
+    # Inherits security policies from policies.yaml
+
+  # Future tools (disabled)
+  clipboard:
+    enabled: false
+    description: "Clipboard read/write"
+
+  system:
+    enabled: false
+    description: "System information and control"
+
+  database:
+    enabled: false
+    description: "Database queries (SQL, NoSQL)"
+
+  docker:
+    enabled: false
+    description: "Docker container management"
+
+  git:
+    enabled: false
+    description: "Git operations"
+

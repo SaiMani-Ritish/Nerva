@@ -1,0 +1,125 @@
+# Security Policies
+# Define sandboxing, rate limits, and access control
+
+# Filesystem policies
+filesystem:
+  # Allowed root directories (sandbox)
+  allow_roots:
+    - ./workspace
+    - ./scratch
+    - ./examples
+
+  # Deny patterns (glob)
+  deny_patterns:
+    - ".*"                    # Hidden files
+    - "**/node_modules/**"    # Dependencies
+    - "**/.git/**"            # Git internals
+    - "**/dist/**"            # Build outputs
+    - "**/build/**"
+
+  # Deny specific paths
+  deny_paths:
+    - /etc
+    - /usr
+    - /System
+    - /Windows
+    - /bin
+    - /sbin
+
+  # Size limits
+  max_file_size: 10485760  # 10 MB
+  max_read_files: 100      # Per operation
+
+# Network policies
+network:
+  # Allowed hosts (with wildcard support)
+  allowed_hosts:
+    - "*"  # Allow all by default (can restrict in production)
+    # - "*.wikipedia.org"
+    # - "api.github.com"
+    # - "*.arxiv.org"
+
+  # Blocked hosts
+  blocked_hosts:
+    - "localhost"
+    - "127.0.0.1"
+    - "0.0.0.0"
+    - "*.local"
+
+  # Rate limiting
+  rate_limit:
+    requests: 10
+    window_seconds: 60
+
+  # Timeout
+  timeout_seconds: 30
+
+  # Maximum response size
+  max_response_size: 10485760  # 10 MB
+
+# Command execution policies
+commands:
+  # Whitelist of allowed commands
+  whitelist:
+    - git
+    - npm
+    - pnpm
+    - node
+    - python
+    - python3
+    - pip
+    - cat
+    - ls
+    - grep
+    - find
+    - echo
+
+  # Blacklist (never allow, even if whitelisted)
+  blacklist:
+    - rm
+    - sudo
+    - su
+    - chmod
+    - chown
+    - dd
+
+  # Execution limits
+  timeout_seconds: 30
+  max_output_size: 1048576  # 1 MB
+  max_concurrent: 5
+
+# LLM-specific policies
+llm:
+  # Token budget per operation
+  max_tokens_per_request: 4096
+
+  # Cost limits (USD)
+  max_cost_per_request: 1.0
+  max_cost_per_hour: 10.0
+
+  # Rate limiting
+  max_requests_per_minute: 60
+
+  # Content filtering
+  enable_content_filter: false
+  blocked_topics: []
+
+# Logging and audit
+audit:
+  # Log all tool calls
+  log_tool_calls: true
+
+  # Log LLM requests/responses
+  log_llm_calls: true
+
+  # Redact sensitive data
+  redact_secrets: true
+  secret_patterns:
+    - "api[_-]?key"
+    - "password"
+    - "token"
+    - "secret"
+
+  # Log retention
+  retention_days: 30
+

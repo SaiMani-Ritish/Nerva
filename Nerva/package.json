@@ -1,0 +1,58 @@
+{
+  "name": "nerva",
+  "version": "0.1.0",
+  "description": "An LLM-native OS with typing-first UX and minimal GUI",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "core/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "vitest",
+    "test:unit": "vitest run test/unit",
+    "test:e2e": "vitest run test/e2e",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json,yaml,yml}\"",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist build **/*.tsbuildinfo",
+    "start": "node dist/packages/cli/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/nerva"
+  },
+  "keywords": [
+    "llm",
+    "os",
+    "ai",
+    "agents",
+    "tui",
+    "keyboard-first"
+  ],
+  "author": "Nerva Contributors",
+  "license": "Apache-2.0"
+}
+
