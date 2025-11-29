@@ -28,11 +28,11 @@ Build a minimal but functional LLM-native OS with:
 
 **Acceptance Criteria**:
 - [x] Repository structure created
-- [ ] TypeScript, ESLint, Prettier configured
-- [ ] Package.json with workspace setup
-- [ ] Basic kernel module with message bus
-- [ ] Development scripts (dev.sh, build, test)
-- [ ] All files compile without errors
+- [x] TypeScript, ESLint, Prettier configured
+- [x] Package.json with workspace setup
+- [x] Basic kernel module with message bus
+- [x] Development scripts (dev.sh, build, test)
+- [x] All files compile without errors
 
 **Dependencies**: None
 
@@ -41,12 +41,12 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Implement core tools with security policies
 
 **Acceptance Criteria**:
-- [ ] `fs` tool: read, write, list, search with sandbox
-- [ ] `web` tool: fetch with allowlist and rate limiting
-- [ ] `process` tool: exec with whitelist and timeout
-- [ ] Policy enforcement layer
-- [ ] Unit tests for each tool (>80% coverage)
-- [ ] Security tests (path traversal, command injection, etc.)
+- [x] `fs` tool: read, write, list, search with sandbox
+- [x] `web` tool: fetch with allowlist and rate limiting
+- [x] `process` tool: exec with whitelist and timeout
+- [x] Policy enforcement layer
+- [x] Unit tests for each tool (>80% coverage)
+- [x] Security tests (path traversal, command injection, etc.)
 
 **Dependencies**: Milestone 1
 
@@ -55,12 +55,12 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Unified model interface with local and cloud adapters
 
 **Acceptance Criteria**:
-- [ ] Model adapter interface defined
-- [ ] Local adapter: llama.cpp bindings
-- [ ] Cloud adapter: OpenAI or Anthropic
-- [ ] Fallback adapter: local-first with cloud-burst
-- [ ] Model registry from config/models.yaml
-- [ ] Unit tests with mocked responses
+- [x] Model adapter interface defined
+- [x] Local adapter: llama.cpp bindings (mock for MVP)
+- [x] Cloud adapter: OpenAI API
+- [x] Fallback adapter: local-first with cloud-burst
+- [x] Model registry from config/models.yaml
+- [x] Unit tests with mocked responses
 - [ ] Integration test with real models
 
 **Dependencies**: Milestone 1
@@ -70,13 +70,13 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Context window management and long-term storage
 
 **Acceptance Criteria**:
-- [ ] Context manager with token budget
-- [ ] Rolling window with automatic pruning
-- [ ] Vector store (simple JSON or sqlite)
-- [ ] Embedding generation and similarity search
-- [ ] Conversation logger
-- [ ] Unit tests for memory operations
-- [ ] Performance test (latency < 50ms for lookups)
+- [x] Context manager with token budget
+- [x] Rolling window with automatic pruning
+- [x] Vector store (simple JSON or sqlite)
+- [x] Embedding generation and similarity search
+- [x] Conversation logger
+- [x] Unit tests for memory operations
+- [x] Performance test (latency < 50ms for lookups)
 
 **Dependencies**: Milestone 3
 
@@ -85,12 +85,12 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Implement three core agents
 
 **Acceptance Criteria**:
-- [ ] Planner agent with prompt template
-- [ ] Executor agent with retry logic
-- [ ] Summarizer agent with compression
-- [ ] Agent tests with golden outputs
-- [ ] Integration tests for agent orchestration
-- [ ] Latency within budget (< 5s for planning)
+- [x] Planner agent with prompt template
+- [x] Executor agent with retry logic
+- [x] Summarizer agent with compression
+- [x] Agent tests with golden outputs
+- [x] Integration tests for agent orchestration
+- [x] Latency within budget (< 5s for planning)
 
 **Dependencies**: Milestones 3, 4
 

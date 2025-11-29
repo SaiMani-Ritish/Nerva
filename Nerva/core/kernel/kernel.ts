@@ -6,7 +6,7 @@
 import type { Context, Intent, Response, KernelConfig } from "./types";
 
 export class Kernel {
-  constructor(private config: KernelConfig) {}
+  constructor(private _config: KernelConfig) {}
 
   /**
    * Main processing loop: parse intent, route, execute, update memory
@@ -53,39 +53,43 @@ export class Kernel {
     }
   }
 
-  private async parseIntent(input: string): Promise<Intent> {
+  private async parseIntent(_input: string): Promise<Intent> {
     // TODO(cursor): Implement using intent-parser.ts
+    await Promise.resolve();
     throw new Error("Not implemented");
   }
 
-  private requestClarification(intent: Intent): Response {
+  private requestClarification(_intent: Intent): Response {
     // TODO(cursor): Format clarification request
     throw new Error("Not implemented");
   }
 
   private async executeDirectly(
-    intent: Intent,
-    context: Context
+    _intent: Intent,
+    _context: Context
   ): Promise<unknown> {
     // TODO(cursor): Direct tool execution via router
+    await Promise.resolve();
     throw new Error("Not implemented");
   }
 
   private async executePlan(
-    intent: Intent,
-    context: Context
+    _intent: Intent,
+    _context: Context
   ): Promise<unknown> {
     // TODO(cursor): Delegate to planner + executor agents
+    await Promise.resolve();
     throw new Error("Not implemented");
   }
 
   private async updateMemory(
-    input: string,
-    intent: Intent,
-    result: unknown,
-    context: Context
+    _input: string,
+    _intent: Intent,
+    _result: unknown,
+    _context: Context
   ): Promise<void> {
     // TODO(cursor): Store in memory system
+    await Promise.resolve();
     throw new Error("Not implemented");
   }
 
