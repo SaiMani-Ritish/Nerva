@@ -17,7 +17,7 @@ I don't like GUI friction; I prefer to maximize flow via keyboard and transcript
 ### Install
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/SaiMani-Ritish/Nerva.git
 cd Nerva
 pnpm install
 # OR: npm install
