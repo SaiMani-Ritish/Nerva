@@ -4,7 +4,7 @@
 
 ## Why Nerva?
 
-Minimize GUI friction; maximize flow via keyboard and transcripts. Traditional operating systems force you to navigate through windows, menus, and mouse clicks. Nerva lets you express intent directly through language, with the LLM routing your commands to the right tools and agents.
+I don't like GUI friction; I prefer to maximize flow via keyboard and transcripts. Traditional operating systems force you to navigate through windows, menus, and mouse clicks. Nerva lets you express intent directly through language, with the LLM routing your commands to the right tools and agents.
 
 ## Quickstart
 
