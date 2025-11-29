@@ -47,17 +47,17 @@ The LLM kernel will parse your intent, route to appropriate agents, and execute 
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                    User Input                        │
-│                  (Natural Language)                  │
+│                    User Input                       │
+│                  (Natural Language)                 │
 └─────────────────┬───────────────────────────────────┘
                   │
                   ▼
 ┌─────────────────────────────────────────────────────┐
-│              LLM Kernel (Core)                       │
-│  • Intent Detection                                  │
-│  • Plan Generation                                   │
-│  • Routing & Orchestration                           │
-│  • Memory Management (Context Window)                │
+│              LLM Kernel (Core)                      │
+│  • Intent Detection                                 │
+│  • Plan Generation                                  │
+│  • Routing & Orchestration                          │
+│  • Memory Management (Context Window)               │
 └─────────────────┬───────────────────────────────────┘
                   │
         ┌─────────┼─────────┐
