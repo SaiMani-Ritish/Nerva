@@ -5,39 +5,111 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.0] - 2025-01-10
 
 ### Added
-- Initial repository structure and scaffolding
-- Core documentation (README, CONTRIBUTING, LICENSE)
+
+#### Core Kernel
+- Intent parser with LLM-based and heuristic fallback parsing
+- Router with simple/complex classification and tool/agent delegation
+- State store for task lifecycle management
+- Message bus for event-driven communication
+- Full kernel orchestration loop with error handling
+
+#### Agent System
+- **Planner Agent**: Goal decomposition, step generation, dependency management
+- **Executor Agent**: Plan execution with retry logic, parallel step support
+- **Summarizer Agent**: Text compression, conversation summarization, key point extraction
+- Agent prompt templates with structured JSON output
+
+#### Memory System
+- Context manager with token budget and automatic pruning
+- Vector store with cosine similarity search
+- Conversation logger with transcript persistence
+- Memory manager for coordinated memory operations
+- Embedding generation support
+
+#### Model Adapters
+- **Local Adapter**: llama.cpp integration (mock for MVP)
+- **OpenAI Adapter**: GPT-4 and GPT-3.5 support with streaming
+- **Fallback Adapter**: Automatic failover with configurable timeout
+- Model capability detection (context length, streaming, embedding)
+
+#### Tools
+- **Filesystem Tool**: Read, write, list, search with sandboxing
+- **Web Tool**: HTTP fetch with rate limiting and host filtering
+- **Process Tool**: Command execution with whitelist enforcement
+- Tool registry with dynamic registration
+
+#### Shell TUI
+- Interactive input with readline support
+- Streaming output with ANSI escape codes
+- Command palette (Ctrl+K) for quick actions
+- Thread management (Ctrl+T) for multiple conversations
+- Scratchpad (Ctrl+P) for notes
+- Status bar with model and thread info
+- Command history with persistence
+
+#### Configuration System
+- YAML configuration loading (models.yaml, tools.yaml, policies.yaml)
+- Environment variable overrides for all settings
+- Sensible defaults for all configurations
+- Configuration validation with helpful error messages
+- Logger with log levels and secret redaction
+
+#### CLI
+- `nerva run` - Start the interactive shell
+- `nerva config` - Display current configuration
+- `nerva model list` - List available models
+- `nerva model pull` - Download models (placeholder)
+- `nerva help` - Show help information
+- `nerva version` - Show version information
+
+#### Testing
+- Unit tests for all core modules (221+ tests)
+- E2E tests for kernel flow and security
+- Latency benchmark tests
+- Test coverage > 80% on core modules
+
+#### Documentation
+- Comprehensive README with quickstart guide
 - Architecture documentation
-- Prompt templates and system prompts
-- Configuration files (models.yaml, tools.yaml, policies.yaml)
-- Core module scaffolds (kernel, memory, tools, agents, models)
-- Shell TUI application scaffold
-- Driver scaffolds (fs, web, process)
-- Model adapters (local_llm, cloud_llm)
-- CLI and SDK package scaffolds
-- Test infrastructure (unit and e2e)
-- Development scripts
-
-### Changed
-- Nothing yet
-
-### Deprecated
-- Nothing yet
-
-### Removed
-- Nothing yet
-
-### Fixed
-- Nothing yet
+- Build plan with milestones
+- Prompt templates for agents
+- Contributing guidelines
 
 ### Security
-- Sandboxed filesystem access with path traversal prevention
-- Command execution whitelist policy
+
+- Sandboxed filesystem access with configurable allow roots
+- Path traversal prevention
+- Hidden file/directory blocking
+- Command whitelist and blacklist enforcement
+- Network host allow/block lists
 - Rate limiting for web requests
+- Request timeout enforcement
 - Secret redaction in logs
+- SSRF prevention (blocks localhost, internal networks)
+
+### Developer Experience
+
+- TypeScript with strict mode
+- ESLint and Prettier configuration
+- pnpm workspace for monorepo
+- Vitest for fast testing
+- Development scripts (build, test, lint)
+
+---
+
+## [Unreleased]
+
+### Planned
+- Real llama.cpp integration (currently mock)
+- Model downloading implementation
+- Additional LLM providers (Anthropic Claude)
+- Plugin system for custom tools
+- Web UI alternative to TUI
+- Persistent thread storage
+- Multi-user support
 
 ---
 
@@ -50,28 +122,5 @@ Each release should include:
 - **Breaking changes**: Clearly marked with ⚠️
 - **Migration guide**: For breaking changes
 
-Example:
-
-## [1.0.0] - 2025-01-15
-
-### Added
-- Complete kernel implementation with intent routing
-- Three-agent system (planner, executor, summarizer)
-- Local llama.cpp support with gguf models
-- Cloud provider support (OpenAI, Anthropic)
-- Full TUI shell with command palette
-- Comprehensive e2e test suite with golden transcripts
-
-### Changed
-- ⚠️ **BREAKING**: Renamed `ToolConfig` to `ToolDescriptor`
-- Improved memory management with automatic summarization
-- Enhanced error messages with actionable suggestions
-
-### Fixed
-- Path traversal vulnerability in fs driver
-- Memory leak in context cache
-- Race condition in agent orchestration
-
-[Unreleased]: https://github.com/username/nerva/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/username/nerva/releases/tag/v1.0.0
-
+[0.1.0]: https://github.com/nerva-project/nerva/releases/tag/v0.1.0
+[Unreleased]: https://github.com/nerva-project/nerva/compare/v0.1.0...HEAD

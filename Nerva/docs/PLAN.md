@@ -99,14 +99,14 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Complete kernel loop with routing logic
 
 **Acceptance Criteria**:
-- [ ] Intent parser
-- [ ] Router: simple vs. complex classification
-- [ ] Tool invocation layer
-- [ ] Agent delegation layer
-- [ ] Memory update integration
-- [ ] Error handling and recovery
-- [ ] Unit tests for routing logic
-- [ ] E2E tests for kernel loop
+- [x] Intent parser
+- [x] Router: simple vs. complex classification
+- [x] Tool invocation layer
+- [x] Agent delegation layer
+- [x] Memory update integration
+- [x] Error handling and recovery
+- [x] Unit tests for routing logic
+- [x] E2E tests for kernel loop
 
 **Dependencies**: Milestones 2, 5
 
@@ -115,13 +115,13 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Interactive terminal interface
 
 **Acceptance Criteria**:
-- [ ] Input line with streaming output
-- [ ] Command palette (Ctrl+K)
-- [ ] Thread management (Ctrl+T)
-- [ ] Status bar with model/thread info
-- [ ] Keyboard navigation (all features accessible)
-- [ ] Scratchpad (Ctrl+P)
-- [ ] User acceptance testing
+- [x] Input line with streaming output
+- [x] Command palette (Ctrl+K)
+- [x] Thread management (Ctrl+T)
+- [x] Status bar with model/thread info
+- [x] Keyboard navigation (all features accessible)
+- [x] Scratchpad (Ctrl+P)
+- [x] User acceptance testing
 
 **Dependencies**: Milestone 6
 
@@ -130,14 +130,14 @@ Build a minimal but functional LLM-native OS with:
 **Goal**: Configuration system and developer experience
 
 **Acceptance Criteria**:
-- [ ] config/models.yaml loading
-- [ ] config/tools.yaml loading
-- [ ] config/policies.yaml enforcement
-- [ ] Environment variable support
-- [ ] CLI: `nerva run`, `nerva model pull`
-- [ ] README Quickstart validated (can run in < 5 min)
-- [ ] Error messages are actionable
-- [ ] Documentation complete
+- [x] config/models.yaml loading
+- [x] config/tools.yaml loading
+- [x] config/policies.yaml enforcement
+- [x] Environment variable support
+- [x] CLI: `nerva run`, `nerva model pull`
+- [x] README Quickstart validated (can run in < 5 min)
+- [x] Error messages are actionable
+- [x] Documentation complete
 
 **Dependencies**: All previous
 
