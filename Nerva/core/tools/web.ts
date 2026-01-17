@@ -2,7 +2,7 @@
  * Web tool - HTTP requests with allowlist and rate limiting
  */
 
-import type { Tool, ToolResult } from "./types";
+import type { Tool, ToolResult } from "./types.js";
 
 export interface WebInput {
   action: "fetch" | "search";
@@ -15,14 +15,14 @@ export interface WebInput {
 }
 
 export interface NetworkPolicy {
-  allowed_hosts: string[];
-  blocked_hosts: string[];
-  rate_limit: {
+  allowedHosts: string[];
+  blockedHosts: string[];
+  rateLimit: {
     requests: number;
-    window_seconds: number;
+    windowSeconds: number;
   };
-  timeout_seconds: number;
-  max_response_size: number;
+  timeoutSeconds: number;
+  maxResponseSize: number;
 }
 
 export class WebTool implements Tool {
@@ -131,7 +131,7 @@ export class WebTool implements Tool {
   private async fetch(input: WebInput): Promise<string> {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.policy.timeout_seconds * 1000);
+      const timeoutId = setTimeout(() => controller.abort(), this.policy.timeoutSeconds * 1000);
 
       const response = await fetch(input.url!, {
         method: input.method || "GET",
@@ -147,19 +147,19 @@ export class WebTool implements Tool {
       }
 
       const contentLength = response.headers.get("content-length");
-      if (contentLength && parseInt(contentLength) > this.policy.max_response_size) {
-        throw new Error(`Response size exceeds limit (${this.policy.max_response_size})`);
+      if (contentLength && parseInt(contentLength) > this.policy.maxResponseSize) {
+        throw new Error(`Response size exceeds limit (${this.policy.maxResponseSize})`);
       }
 
       const text = await response.text();
-      if (text.length > this.policy.max_response_size) {
-        throw new Error(`Response size exceeds limit (${this.policy.max_response_size})`);
+      if (text.length > this.policy.maxResponseSize) {
+        throw new Error(`Response size exceeds limit (${this.policy.maxResponseSize})`);
       }
       
       return text;
     } catch (error) {
       if ((error as Error).name === 'AbortError') {
-         throw new Error(`Request timed out after ${this.policy.timeout_seconds}s`);
+         throw new Error(`Request timed out after ${this.policy.timeoutSeconds}s`);
       }
       throw new Error(`Fetch failed: ${(error as Error).message}`);
     }
@@ -190,7 +190,7 @@ export class WebTool implements Tool {
       const hostname = url.hostname;
 
       // Check blocked hosts first
-      const isBlocked = this.policy.blocked_hosts.some((blocked) => {
+      const isBlocked = this.policy.blockedHosts.some((blocked) => {
          if (blocked.startsWith("*.")) {
             return hostname.endsWith(blocked.slice(2));
          }
@@ -200,7 +200,7 @@ export class WebTool implements Tool {
       if (isBlocked) return false;
 
       // Check allowed hosts
-      return this.policy.allowed_hosts.some((allowed) => {
+      return this.policy.allowedHosts.some((allowed) => {
         if (allowed === "*") return true;
         if (allowed.startsWith("*.")) {
           return hostname.endsWith(allowed.slice(2));
@@ -217,14 +217,14 @@ export class WebTool implements Tool {
    */
   private checkRateLimit(): boolean {
     const now = Date.now();
-    const windowMs = this.policy.rate_limit.window_seconds * 1000;
+    const windowMs = this.policy.rateLimit.windowSeconds * 1000;
     
     if (now - this.lastResetTime > windowMs) {
       this.requestCount = 0;
       this.lastResetTime = now;
     }
 
-    if (this.requestCount >= this.policy.rate_limit.requests) {
+    if (this.requestCount >= this.policy.rateLimit.requests) {
       return false;
     }
 

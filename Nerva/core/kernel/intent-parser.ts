@@ -2,8 +2,8 @@
  * Intent parser - converts natural language to structured intent
  */
 
-import type { Intent } from "./types";
-import type { ModelAdapter, Prompt } from "../models/types";
+import type { Intent } from "./types.js";
+import type { ModelAdapter, Prompt } from "../models/types.js";
 
 export interface IntentParserConfig {
   confidenceThreshold?: number;

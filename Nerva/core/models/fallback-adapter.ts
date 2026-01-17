@@ -9,7 +9,7 @@ import type {
   LLMOutput,
   Embedding,
   ModelCapabilities,
-} from "./types";
+} from "./types.js";
 
 export class FallbackAdapter implements ModelAdapter {
   constructor(

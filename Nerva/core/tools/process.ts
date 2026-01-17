@@ -3,7 +3,7 @@
  */
 
 import { spawn } from "child_process";
-import type { Tool, ToolResult } from "./types";
+import type { Tool, ToolResult } from "./types.js";
 
 export interface ProcessExecInput {
   command: string;
@@ -21,8 +21,8 @@ export interface ProcessExecOutput {
 export interface ProcessPolicy {
   whitelist: string[];
   blacklist: string[];
-  timeout_seconds: number;
-  max_output_size: number;
+  timeoutSeconds: number;
+  maxOutputSize: number;
 }
 
 export class ProcessTool implements Tool {
@@ -116,7 +116,7 @@ export class ProcessTool implements Tool {
 
       child.stdout.on("data", (data) => {
         stdout += data.toString();
-        if (stdout.length + stderr.length > this.policy.max_output_size) {
+        if (stdout.length + stderr.length > this.policy.maxOutputSize) {
           outputLimitExceeded = true;
           child.kill();
         }
@@ -124,14 +124,14 @@ export class ProcessTool implements Tool {
 
       child.stderr.on("data", (data) => {
         stderr += data.toString();
-        if (stdout.length + stderr.length > this.policy.max_output_size) {
+        if (stdout.length + stderr.length > this.policy.maxOutputSize) {
           outputLimitExceeded = true;
           child.kill();
         }
       });
 
       // Timeout handling
-      const timeoutMs = input.timeout || this.policy.timeout_seconds * 1000;
+      const timeoutMs = input.timeout || this.policy.timeoutSeconds * 1000;
       const timer = setTimeout(() => {
         child.kill();
         reject(new Error(`Command timed out after ${timeoutMs}ms`));
@@ -145,7 +145,7 @@ export class ProcessTool implements Tool {
       child.on("close", (code) => {
         clearTimeout(timer);
         if (outputLimitExceeded) {
-          reject(new Error(`Output size exceeded limit (${this.policy.max_output_size})`));
+          reject(new Error(`Output size exceeded limit (${this.policy.maxOutputSize})`));
           return;
         }
         resolve({

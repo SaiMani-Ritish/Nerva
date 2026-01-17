@@ -53,6 +53,8 @@
     "keyboard-first"
   ],
   "author": "Nerva Contributors",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
 }
-

@@ -4,7 +4,7 @@
 
 import { promises as fs } from "fs";
 import * as path from "path";
-import type { Message } from "./types";
+import type { Message } from "./types.js";
 
 export interface Transcript {
   threadId: string;

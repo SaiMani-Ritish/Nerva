@@ -12,8 +12,8 @@ import type {
   PoliciesConfig,
   ConfigValidationError,
   EnvVarMapping,
-} from "./types";
-import { getDefaults } from "./defaults";
+} from "./types.js";
+import { getDefaults } from "./defaults.js";
 
 /**
  * Environment variable mappings

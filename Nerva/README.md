@@ -13,8 +13,8 @@
 ### Prerequisites
 
 - **Node.js 18+** — [Download](https://nodejs.org/)
-- **pnpm** — `npm install -g pnpm`
-- **(Optional)** OpenAI API key for cloud models
+- **npm** or **pnpm** — Comes with Node.js
+- **Ollama** — [Download](https://ollama.com/) for local LLM inference
 
 ### Installation
 
@@ -33,10 +33,13 @@ pnpm build
 ### Configuration
 
 ```bash
-# (Optional) Set your API key for cloud models
-export OPENAI_API_KEY="sk-..."
+# Pull a local model with Ollama (recommended: small & fast)
+ollama pull qwen2.5:1.5b
 
-# Or use local models only (no API key needed)
+# Copy the example environment file
+cp .env.example .env
+
+# Edit .env to set your model (default: qwen2.5:1.5b)
 ```
 
 ### Run Nerva
@@ -83,6 +86,49 @@ Nerva reimagines the operating system with an LLM at its core:
 
 ---
 
+## What Can Nerva Do So Far?
+
+### File Operations
+```
+read package.json
+list files in src/
+search for "TODO" in the codebase
+write "hello world" to notes.txt
+```
+
+### Web Requests
+```
+fetch https://api.github.com/users/octocat
+search the web for "TypeScript best practices"
+```
+
+### System Commands
+```
+run ls -la
+execute npm --version
+run git status
+```
+
+### Conversational AI
+```
+Hello, what can you do?
+Help me understand this project
+Explain how the kernel works
+```
+
+### Shell Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+K` | Open command palette |
+| `Ctrl+T` | Thread selector (multiple conversations) |
+| `Ctrl+P` | Scratchpad for notes |
+| `↑` / `↓` | Browse command history |
+| `?` | Help menu |
+| `Ctrl+C` | Exit Nerva |
+
+---
+
 ## 🛠️ Features
 
 ### Interactive Shell
@@ -125,20 +171,24 @@ config/
 
 | Variable | Description |
 |----------|-------------|
-| `OPENAI_API_KEY` | OpenAI API key for GPT models |
-| `ANTHROPIC_API_KEY` | Anthropic API key for Claude models |
+| `OLLAMA_MODEL` | Ollama model name (e.g., `qwen2.5:1.5b`, `llama3:8b`) |
+| `OLLAMA_HOST` | Ollama server URL (default: `http://localhost:11434`) |
 | `NERVA_LOG_LEVEL` | Logging level (debug, info, warn, error) |
 | `NERVA_CONFIG_DIR` | Custom config directory |
 
 ### Example: Change Default Model
 
-Edit `config/models.yaml`:
+Edit your `.env` file:
 
-```yaml
-default:
-  local: llama-3-8b
-  cloud: gpt-4
+```bash
+# Use a different Ollama model
+OLLAMA_MODEL=llama3:8b
+
+# Or use phi3 for even faster responses
+OLLAMA_MODEL=phi3:mini
 ```
+
+Available models: [Ollama Library](https://ollama.com/library)
 
 ### Example: Add Filesystem Root
 
@@ -182,7 +232,7 @@ nerva/
 │   ├── kernel/          # Intent parsing, routing, orchestration
 │   ├── agents/          # Planner, Executor, Summarizer
 │   ├── tools/           # Filesystem, Web, Process tools
-│   ├── models/          # LLM adapters (Local, OpenAI, Fallback)
+│   ├── models/          # LLM adapters (Ollama, Local, Fallback)
 │   ├── memory/          # Context manager, Vector store, Logger
 │   └── config/          # Configuration system
 ├── packages/
@@ -292,9 +342,9 @@ Apache License 2.0 — See [LICENSE](LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
+- [Ollama](https://ollama.com/) — Local LLM server
+- [Qwen](https://qwenlm.github.io/) — Efficient open-weight models
 - [llama.cpp](https://github.com/ggerganov/llama.cpp) — Local model inference
-- [OpenAI](https://openai.com/) — GPT model API
-- [Anthropic](https://www.anthropic.com/) — Claude model API
 
 ---
 

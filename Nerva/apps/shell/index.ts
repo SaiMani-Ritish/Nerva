@@ -2,9 +2,9 @@
  * Nerva Shell - TUI Application Exports
  */
 
-export { NervaShell } from "./shell";
-export { Renderer } from "./renderer";
-export * from "./ansi";
+export { NervaShell } from "./shell.js";
+export { Renderer } from "./renderer.js";
+export * from "./ansi.js";
 export type {
   ShellConfig,
   ShellState,
@@ -13,4 +13,4 @@ export type {
   ThreadInfo,
   CommandPaletteItem,
   OutputChunk,
-} from "./types";
+} from "./types.js";

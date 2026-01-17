@@ -20,20 +20,20 @@ models:
     enabled: false  # Requires high-end GPU
 
   # Cloud models (OpenAI)
-  - name: gpt-4
+  - name: gpt-4o
     type: cloud
     provider: openai
-    model_id: gpt-4-turbo-preview
+    model_id: gpt-4o
     context_size: 128000
-    cost_per_token: 0.00003
+    cost_per_token: 0.000005
     enabled: true
 
-  - name: gpt-3.5-turbo
+  - name: gpt-4o-mini
     type: cloud
     provider: openai
-    model_id: gpt-3.5-turbo
-    context_size: 16384
-    cost_per_token: 0.000002
+    model_id: gpt-4o-mini
+    context_size: 128000
+    cost_per_token: 0.00000015
     enabled: true
 
   # Cloud models (Anthropic)
@@ -48,7 +48,7 @@ models:
 # Default model selection
 default:
   local: llama-3-8b
-  cloud: gpt-4
+  cloud: gpt-4o-mini
 
 # Fallback strategy
 fallback:

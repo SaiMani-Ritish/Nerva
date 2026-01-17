@@ -2,8 +2,8 @@
  * Planner agent - decomposes goals into executable steps
  */
 
-import type { Plan, PlanStep } from "./types";
-import type { ModelAdapter, Prompt } from "../models/types";
+import type { Plan, PlanStep } from "./types.js";
+import type { ModelAdapter, Prompt } from "../models/types.js";
 
 export interface PlannerInput {
   goal: string;

@@ -2,17 +2,17 @@
  * Tools module exports
  */
 
-import { FilesystemTool } from "./fs";
-import { WebTool } from "./web";
-import { ProcessTool } from "./process";
-import { loadConfig } from "../config";
-import type { Tool } from "./types";
+import { FilesystemTool } from "./fs.js";
+import { WebTool } from "./web.js";
+import { ProcessTool } from "./process.js";
+import { loadConfig } from "../config/index.js";
+import type { Tool } from "./types.js";
 
-export { FilesystemTool } from "./fs";
-export { WebTool } from "./web";
-export { ProcessTool } from "./process";
-export { ToolRegistryImpl } from "./registry";
-export type * from "./types";
+export { FilesystemTool } from "./fs.js";
+export { WebTool } from "./web.js";
+export { ProcessTool } from "./process.js";
+export { ToolRegistryImpl } from "./registry.js";
+export type * from "./types.js";
 
 /**
  * Initialize all tools with configuration
@@ -21,8 +21,8 @@ export async function createTools(): Promise<Tool[]> {
   const config = await loadConfig();
 
   return [
-    new FilesystemTool(config.filesystem),
-    new WebTool(config.network),
-    new ProcessTool(config.commands),
+    new FilesystemTool(config.policies.filesystem as any),
+    new WebTool(config.policies.network as any),
+    new ProcessTool(config.policies.commands as any),
   ];
 }

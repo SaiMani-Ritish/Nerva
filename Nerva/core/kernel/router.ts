@@ -2,8 +2,8 @@
  * Intent router - determines how to handle parsed intents
  */
 
-import type { Intent, Context } from "./types";
-import type { ToolRegistry } from "../tools/types";
+import type { Intent, Context } from "./types.js";
+import type { ToolRegistry } from "../tools/types.js";
 
 export type RouteDecision =
   | { type: "direct"; tool: string; operation: string; inputs: Record<string, unknown> }
@@ -81,26 +81,61 @@ export class Router {
    */
   private isConversational(intent: Intent): boolean {
     const conversationalActions = [
+      // Questions/explanations
       "explain",
       "describe",
       "what",
       "how",
       "why",
       "help",
+      "tell",
+      "can",
+      "do",
+      // Greetings
+      "hello",
+      "hi",
+      "hey",
+      "greet",
+      "chat",
+      "talk",
+      // General
+      "unknown",
     ];
-    return conversationalActions.includes(intent.action.toLowerCase());
+    
+    const action = intent.action.toLowerCase();
+    
+    // Check if action matches conversational patterns
+    if (conversationalActions.includes(action)) {
+      return true;
+    }
+    
+    // Check if target is about capabilities/self
+    if (intent.target) {
+      const target = intent.target.toLowerCase();
+      if (target.includes("you") || target.includes("capability") || target.includes("help")) {
+        return true;
+      }
+    }
+    
+    // No tool-specific target = likely conversational
+    if (!intent.target || intent.target === "") {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
    * Build a conversational response prompt
+   * Returns the original user input with context for the LLM
    */
-  private buildConversationalResponse(intent: Intent, context: Context): string {
-    let response = `User wants to know: ${intent.action}`;
+  private buildConversationalResponse(intent: Intent, _context: Context): string {
+    // Return the original input for the LLM to respond to naturally
+    // Combine action and target to reconstruct the user's question
     if (intent.target) {
-      response += ` about "${intent.target}"`;
+      return `${intent.action} ${intent.target}`.trim();
     }
-    response += `. Context: ${context.history.length} previous messages.`;
-    return response;
+    return intent.action;
   }
 
   /**

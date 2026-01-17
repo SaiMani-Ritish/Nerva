@@ -3,10 +3,10 @@
  * Coordinates context, vector store, and logging
  */
 
-import { ContextManager, SummaryCallback } from "./context-manager";
-import { VectorStore, EmbeddingProvider } from "./vector-store";
-import { ConversationLogger } from "./logger";
-import type { Message, MemoryEntry, MemoryConfig, VectorSearchResult } from "./types";
+import { ContextManager, SummaryCallback } from "./context-manager.js";
+import { VectorStore, EmbeddingProvider } from "./vector-store.js";
+import { ConversationLogger } from "./logger.js";
+import type { Message, MemoryEntry, MemoryConfig, VectorSearchResult } from "./types.js";
 
 export interface MemoryManagerConfig extends MemoryConfig {
   loggerBasePath?: string;

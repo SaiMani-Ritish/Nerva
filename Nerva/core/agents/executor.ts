@@ -8,8 +8,8 @@ import type {
   ExecutionResult,
   StepResult,
   ProgressUpdate,
-} from "./types";
-import type { Tool } from "../tools/types";
+} from "./types.js";
+import type { Tool } from "../tools/types.js";
 
 export type ProgressCallback = (update: ProgressUpdate) => void;
 

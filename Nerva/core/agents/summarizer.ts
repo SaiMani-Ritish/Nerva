@@ -2,8 +2,8 @@
  * Summarizer agent - compresses text while preserving key information
  */
 
-import type { Summary } from "./types";
-import type { ModelAdapter, Prompt, Message } from "../models/types";
+import type { Summary } from "./types.js";
+import type { ModelAdapter, Prompt, Message } from "../models/types.js";
 
 export interface SummarizerInput {
   text: string;

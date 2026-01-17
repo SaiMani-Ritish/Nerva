@@ -2,7 +2,7 @@
  * Vector store for long-term memory with semantic search
  */
 
-import type { MemoryEntry, VectorSearchResult } from "./types";
+import type { MemoryEntry, VectorSearchResult } from "./types.js";
 
 export interface EmbeddingProvider {
   embed(text: string): Promise<number[]>;

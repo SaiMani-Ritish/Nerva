@@ -3,8 +3,8 @@
  * Handles all terminal output and screen management
  */
 
-import { cursor, screen, fg, bg, style, colorize, padRight, drawBox, textLength } from "./ansi";
-import type { ShellState, ThreadInfo, CommandPaletteItem, OutputChunk } from "./types";
+import { cursor, screen, fg, bg, style, colorize, padRight, drawBox, textLength } from "./ansi.js";
+import type { ShellState, ThreadInfo, CommandPaletteItem, OutputChunk } from "./types.js";
 
 export interface RendererConfig {
   showStatusBar?: boolean;

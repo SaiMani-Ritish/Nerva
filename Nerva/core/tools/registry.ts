@@ -2,7 +2,7 @@
  * Tool registry - manages available tools
  */
 
-import type { Tool, ToolRegistry } from "./types";
+import type { Tool, ToolRegistry } from "./types.js";
 
 export class ToolRegistryImpl implements ToolRegistry {
   private tools: Map<string, Tool> = new Map();

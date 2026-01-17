@@ -2,9 +2,9 @@
  * Configuration module exports
  */
 
-export { ConfigLoader, createConfigLoader, loadConfig } from "./loader";
-export { getDefaults, mergeWithDefaults } from "./defaults";
-export { Logger, createLogger, LogLevel } from "./logger";
+export { ConfigLoader, createConfigLoader, loadConfig } from "./loader.js";
+export { getDefaults, mergeWithDefaults } from "./defaults.js";
+export { Logger, createLogger, LogLevel } from "./logger.js";
 export type {
   NervaConfig,
   ModelsConfig,
@@ -18,5 +18,5 @@ export type {
   LLMPolicy,
   AuditPolicy,
   ConfigValidationError,
-} from "./types";
+} from "./types.js";
 

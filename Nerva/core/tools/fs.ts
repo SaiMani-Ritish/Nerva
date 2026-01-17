@@ -4,7 +4,7 @@
 
 import { promises as fs } from "fs";
 import * as path from "path";
-import type { Tool, ToolResult } from "./types";
+import type { Tool, ToolResult } from "./types.js";
 
 export interface FsInput {
   action: "read" | "write" | "list" | "search";
@@ -15,10 +15,10 @@ export interface FsInput {
 }
 
 export interface FilesystemPolicy {
-  allow_roots: string[];
-  deny_patterns: string[];
-  deny_paths: string[];
-  max_file_size: number;
+  allowRoots: string[];
+  denyPatterns: string[];
+  denyPaths: string[];
+  maxFileSize: number;
 }
 
 export class FilesystemTool implements Tool {
@@ -57,13 +57,13 @@ export class FilesystemTool implements Tool {
   private absoluteDenyPaths: string[];
 
   constructor(private policy: FilesystemPolicy) {
-    this.absoluteSandboxRoots = policy.allow_roots.map((root) =>
+    this.absoluteSandboxRoots = policy.allowRoots.map((root) =>
       path.resolve(process.cwd(), root)
     );
-    this.absoluteDenyPaths = policy.deny_paths.map((p) =>
+    this.absoluteDenyPaths = policy.denyPaths.map((p) =>
       path.resolve(process.cwd(), p)
     );
-    this.denyPatterns = policy.deny_patterns.map((p) => {
+    this.denyPatterns = policy.denyPatterns.map((p) => {
         // Simple glob-to-regex conversion for common cases
         // Replace ** with .* and * with [^/]*
         const regexStr = p
@@ -177,8 +177,8 @@ export class FilesystemTool implements Tool {
   private async read(resolvedPath: string, encoding: string): Promise<string> {
     try {
       const stats = await fs.stat(resolvedPath);
-      if (stats.size > this.policy.max_file_size) {
-        throw new Error(`File size (${stats.size}) exceeds limit (${this.policy.max_file_size})`);
+      if (stats.size > this.policy.maxFileSize) {
+        throw new Error(`File size (${stats.size}) exceeds limit (${this.policy.maxFileSize})`);
       }
 
       const content = await fs.readFile(resolvedPath, {
@@ -199,8 +199,8 @@ export class FilesystemTool implements Tool {
     encoding: string
   ): Promise<void> {
     try {
-      if (content.length > this.policy.max_file_size) {
-        throw new Error(`Content size (${content.length}) exceeds limit (${this.policy.max_file_size})`);
+      if (content.length > this.policy.maxFileSize) {
+        throw new Error(`Content size (${content.length}) exceeds limit (${this.policy.maxFileSize})`);
       }
 
       // Ensure directory exists

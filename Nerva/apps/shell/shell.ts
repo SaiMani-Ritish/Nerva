@@ -5,17 +5,17 @@
 import * as readline from "readline";
 import { promises as fs } from "fs";
 import * as path from "path";
-import type { Kernel } from "../../core/kernel/kernel";
-import type { Context } from "../../core/kernel/types";
-import { Renderer } from "./renderer";
-import { fg, colorize, style } from "./ansi";
+import type { Kernel } from "../../core/kernel/kernel.js";
+import type { Context } from "../../core/kernel/types.js";
+import { Renderer } from "./renderer.js";
+import { fg, colorize, style } from "./ansi.js";
 import type {
   ShellConfig,
   ShellState,
   ThreadInfo,
   CommandPaletteItem,
   OutputChunk,
-} from "./types";
+} from "./types.js";
 
 /**
  * Main Nerva Shell class
@@ -51,6 +51,7 @@ export class NervaShell {
         warning: fg.yellow,
         muted: fg.brightBlack,
       },
+      modelName: config.modelName ?? "local-model",
     };
 
     this.renderer = new Renderer({ showStatusBar: true });
@@ -587,13 +588,30 @@ export class NervaShell {
         thread.lastActivityAt = Date.now();
       }
 
-      // Show response
+      // Show response - split into multiple lines for long responses
       const outputType = response.type === "error" ? "error" : "success";
-      this.addOutput({
-        type: outputType,
-        content: colorize(`Nerva: ${response.content}`, outputType === "error" ? fg.red : fg.green),
-        timestamp: Date.now(),
-      });
+      const color = outputType === "error" ? fg.red : fg.green;
+      
+      // Split response into lines (handle newlines and wrap long lines)
+      const responseLines = this.wrapText(response.content, this.getTerminalWidth() - 10);
+      
+      // First line with "Nerva:" prefix
+      if (responseLines.length > 0) {
+        this.addOutput({
+          type: outputType,
+          content: colorize(`Nerva: ${responseLines[0]}`, color),
+          timestamp: Date.now(),
+        });
+        
+        // Remaining lines with indentation
+        for (let i = 1; i < responseLines.length; i++) {
+          this.addOutput({
+            type: outputType,
+            content: colorize(`       ${responseLines[i]}`, color),
+            timestamp: Date.now(),
+          });
+        }
+      }
 
       // Show timing
       this.addOutput({
@@ -672,6 +690,48 @@ export class NervaShell {
   }
 
   /**
+   * Get terminal width
+   */
+  private getTerminalWidth(): number {
+    return process.stdout.columns || 80;
+  }
+
+  /**
+   * Wrap text to fit within a given width
+   */
+  private wrapText(text: string, maxWidth: number): string[] {
+    const lines: string[] = [];
+    
+    // First split by actual newlines
+    const paragraphs = text.split(/\n/);
+    
+    for (const paragraph of paragraphs) {
+      if (paragraph.length === 0) {
+        lines.push("");
+        continue;
+      }
+      
+      // Wrap long lines
+      let remaining = paragraph;
+      while (remaining.length > maxWidth) {
+        // Find the last space before maxWidth
+        let breakPoint = remaining.lastIndexOf(" ", maxWidth);
+        if (breakPoint === -1 || breakPoint < maxWidth / 2) {
+          // No good break point, force break
+          breakPoint = maxWidth;
+        }
+        lines.push(remaining.substring(0, breakPoint).trim());
+        remaining = remaining.substring(breakPoint).trim();
+      }
+      if (remaining.length > 0) {
+        lines.push(remaining);
+      }
+    }
+    
+    return lines.length > 0 ? lines : [""];
+  }
+
+  /**
    * Render the shell
    */
   private render(): void {
@@ -679,7 +739,7 @@ export class NervaShell {
       this.state,
       this.inputBuffer,
       this.cursorPos,
-      "local-model"
+      this.config.modelName
     );
   }
 

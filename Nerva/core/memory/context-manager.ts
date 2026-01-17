@@ -2,7 +2,7 @@
  * Context window manager with token budget enforcement
  */
 
-import type { Message, MemoryConfig } from "./types";
+import type { Message, MemoryConfig } from "./types.js";
 
 export interface SummaryCallback {
   (messages: Message[]): Promise<string>;

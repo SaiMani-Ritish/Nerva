@@ -3,17 +3,17 @@
  * Orchestrates intent parsing, routing, tool/agent execution, and memory management
  */
 
-import type { Context, Intent, Response, KernelConfig, Message } from "./types";
-import { IntentParser } from "./intent-parser";
-import { Router, RouteDecision } from "./router";
-import { StateStore, TaskState } from "./state-store";
-import { MessageBus } from "./message-bus";
-import type { ToolRegistry, Tool, ToolResult } from "../tools/types";
-import type { ModelAdapter } from "../models/types";
-import { PlannerAgent } from "../agents/planner";
-import { ExecutorAgent } from "../agents/executor";
-import { SummarizerAgent } from "../agents/summarizer";
-import { MemoryManager } from "../memory/memory-manager";
+import type { Context, Intent, Response, KernelConfig, Message } from "./types.js";
+import { IntentParser } from "./intent-parser.js";
+import { Router, RouteDecision } from "./router.js";
+import { StateStore, TaskState } from "./state-store.js";
+import { MessageBus } from "./message-bus.js";
+import type { ToolRegistry, Tool, ToolResult } from "../tools/types.js";
+import type { ModelAdapter } from "../models/types.js";
+import { PlannerAgent } from "../agents/planner.js";
+import { ExecutorAgent } from "../agents/executor.js";
+import { SummarizerAgent } from "../agents/summarizer.js";
+import { MemoryManager } from "../memory/memory-manager.js";
 
 export interface KernelDependencies {
   modelAdapter: ModelAdapter;
@@ -135,7 +135,8 @@ export class Kernel {
         case "clarify":
           return this.requestClarification(intent, startTime);
         case "respond":
-          result = await this.generateResponse(route.message, context);
+          // Use original input for natural conversation
+          result = await this.generateResponse(input, context);
           break;
       }
 
@@ -296,14 +297,31 @@ export class Kernel {
     prompt: string,
     context: Context
   ): Promise<string> {
-    // Build conversation history for LLM
-    const messages = context.history.map((m) => ({
-      role: m.role,
-      content: m.content,
-    }));
+    // System prompt that describes Nerva
+    const systemPrompt = `You are Nerva, an intelligent LLM-native operating system assistant. You help users with:
+- File operations (read, write, list, search files)
+- Running system commands safely
+- Web requests and searches
+- Planning and executing multi-step tasks
 
+Be helpful, concise, and friendly. If asked what you can do, explain your capabilities briefly.`;
+
+    // Build conversation history for LLM
+    const messages: { role: "system" | "user" | "assistant"; content: string }[] = [
+      { role: "system", content: systemPrompt },
+    ];
+    
+    // Add conversation history
+    for (const m of context.history) {
+      messages.push({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      });
+    }
+
+    // Add current user message
     messages.push({
-      role: "user" as const,
+      role: "user",
       content: prompt,
     });
 

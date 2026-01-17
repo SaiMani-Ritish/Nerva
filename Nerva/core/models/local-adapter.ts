@@ -12,7 +12,7 @@ import type {
   LLMOutput,
   Embedding,
   ModelCapabilities,
-} from "./types";
+} from "./types.js";
 
 export interface LocalAdapterConfig {
   modelPath: string;
@@ -54,6 +54,14 @@ export class LocalAdapter implements ModelAdapter {
     //   maxTokens: options.maxTokens || 2048,
     //   temperature: options.temperature || 0.7,
     // });
+
+    // Check if this is a real model (has a valid model path)
+    const isRealModel = this.config.modelPath && this.config.modelPath.length > 0;
+
+    if (!isRealModel) {
+      // For mock mode, throw an error to trigger fallback to cloud
+      throw new Error("Mock local model - no real model configured");
+    }
 
     // For MVP, return a mock response indicating local model
     // In production, this would call the actual llama.cpp bindings

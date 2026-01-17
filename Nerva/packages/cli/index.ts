@@ -2,16 +2,17 @@
  * Nerva CLI - Command Line Interface
  */
 
-import { loadFullConfig, createLogger, LogLevel, type NervaConfig } from "../../core/config";
-import { NervaShell } from "../../apps/shell";
-import { Kernel } from "../../core/kernel/kernel";
-import { ToolRegistryImpl } from "../../core/tools/registry";
-import { createTools } from "../../core/tools";
-import { MemoryManager } from "../../core/memory";
-import { LocalAdapter } from "../../core/models/local-adapter";
-import { OpenAIAdapter } from "../../core/models/openai-adapter";
-import { FallbackAdapter } from "../../core/models/fallback-adapter";
-import type { ModelAdapter } from "../../core/models/types";
+// Load environment variables from .env file
+import "dotenv/config";
+
+import { loadConfig, createLogger, LogLevel, type NervaConfig } from "../../core/config/index.js";
+import { NervaShell } from "../../apps/shell/index.js";
+import { Kernel } from "../../core/kernel/kernel.js";
+import { ToolRegistryImpl } from "../../core/tools/registry.js";
+import { createTools } from "../../core/tools/index.js";
+import { MemoryManager } from "../../core/memory/index.js";
+import { OllamaAdapter } from "../../core/models/ollama-adapter.js";
+import type { ModelAdapter } from "../../core/models/types.js";
 
 const logger = createLogger("cli");
 
@@ -80,11 +81,11 @@ async function runCommand(args: string[]): Promise<void> {
 
   // Load configuration
   logger.info("Loading configuration...");
-  const config = await loadFullConfig(options.configDir);
+  const config = await loadConfig(options.configDir);
 
   // Create model adapter
   logger.info("Initializing model adapter...");
-  const modelAdapter = await createModelAdapter(config);
+  const { adapter: modelAdapter, modelName } = await createModelAdapter(config);
 
   // Create tool registry
   logger.info("Loading tools...");
@@ -127,71 +128,47 @@ async function runCommand(args: string[]): Promise<void> {
 
   // Create and start shell
   logger.info("Starting shell...");
-  const shell = new NervaShell(kernel);
+  const shell = new NervaShell(kernel, { modelName });
   await shell.start();
 
   logger.info("Nerva stopped");
 }
 
+interface ModelAdapterResult {
+  adapter: ModelAdapter;
+  modelName: string;
+}
+
 /**
  * Create model adapter based on configuration
  */
-async function createModelAdapter(config: NervaConfig): Promise<ModelAdapter> {
-  const localModel = config.models.models.find(
-    (m) => m.name === config.models.default.local && m.enabled
-  );
-  const cloudModel = config.models.models.find(
-    (m) => m.name === config.models.default.cloud && m.enabled
-  );
+async function createModelAdapter(_config: NervaConfig): Promise<ModelAdapterResult> {
+  // Use Ollama with a fast, small model
+  const model = process.env.OLLAMA_MODEL || "qwen2.5:1.5b";
+  const baseUrl = process.env.OLLAMA_URL || "http://localhost:11434";
 
-  // Check for API keys
-  const openaiKey = process.env.OPENAI_API_KEY;
-  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  const adapter = new OllamaAdapter({ model, baseUrl });
 
-  // Create adapters based on what's available
-  let localAdapter: ModelAdapter | undefined;
-  let cloudAdapter: ModelAdapter | undefined;
+  // Check if Ollama is running
+  const health = await adapter.checkHealth();
 
-  if (localModel && localModel.modelPath) {
-    localAdapter = new LocalAdapter({
-      modelPath: localModel.modelPath,
-      contextSize: localModel.contextSize,
-      gpuLayers: localModel.gpuLayers,
-    });
-    logger.info(`Local model: ${localModel.name}`);
+  if (!health.ok) {
+    logger.error("Ollama not available!");
+    logger.error(health.error || "Unknown error");
+    logger.info("");
+    logger.info("To set up Ollama:");
+    logger.info("1. Install: https://ollama.com/download");
+    logger.info("2. Start:   ollama serve");
+    logger.info(`3. Pull:    ollama pull ${model}`);
+    logger.info("4. Run:     npm start");
+    logger.info("");
+
+    // Return adapter anyway - will show error on use
+    return { adapter, modelName: `${model} (not running)` };
   }
 
-  if (cloudModel && cloudModel.provider === "openai" && openaiKey) {
-    cloudAdapter = new OpenAIAdapter({
-      apiKey: openaiKey,
-      model: cloudModel.modelId || cloudModel.name,
-    });
-    logger.info(`Cloud model: ${cloudModel.name}`);
-  }
-
-  // Use fallback if both are available
-  if (localAdapter && cloudAdapter && config.models.fallback.enabled) {
-    logger.info("Using fallback adapter");
-    return new FallbackAdapter(
-      localAdapter,
-      cloudAdapter,
-      config.models.fallback.timeoutMs
-    );
-  }
-
-  // Return whichever is available
-  if (localAdapter) {
-    return localAdapter;
-  }
-  if (cloudAdapter) {
-    return cloudAdapter;
-  }
-
-  // No adapters available - create a mock that will error
-  logger.warn("No models available - please configure a model");
-  return new LocalAdapter({
-    modelPath: "",
-  });
+  logger.info(`Using Ollama: ${model} (local)`);
+  return { adapter, modelName: model };
 }
 
 /**
@@ -247,7 +224,7 @@ async function versionCommand(_args: string[]): Promise<void> {
  */
 async function configCommand(args: string[]): Promise<void> {
   const configDir = getArgValue(args, "--config", "-c");
-  const config = await loadFullConfig(configDir);
+  const config = await loadConfig(configDir);
 
   console.log("\n=== Nerva Configuration ===\n");
 
@@ -261,8 +238,9 @@ async function configCommand(args: string[]): Promise<void> {
 
   console.log("\nTools:");
   for (const [name, tool] of Object.entries(config.tools.tools)) {
-    const status = tool.enabled ? "✓" : "✗";
-    console.log(`  ${status} ${name}: ${tool.description}`);
+    const toolConfig = tool as { enabled: boolean; description: string };
+    const status = toolConfig.enabled ? "✓" : "✗";
+    console.log(`  ${status} ${name}: ${toolConfig.description}`);
   }
 
   console.log("\nPolicies:");
@@ -298,12 +276,12 @@ async function modelCommand(args: string[]): Promise<void> {
  * List models
  */
 async function modelListCommand(): Promise<void> {
-  const config = await loadFullConfig();
+  const config = await loadConfig();
 
   console.log("\n=== Available Models ===\n");
 
   console.log("Local Models:");
-  for (const model of config.models.models.filter((m) => m.type === "local")) {
+  for (const model of config.models.models.filter((m: { type: string }) => m.type === "local")) {
     const status = model.enabled ? "✓" : "✗";
     const isDefault = model.name === config.models.default.local ? "(default)" : "";
     console.log(`  ${status} ${model.name} ${isDefault}`);
@@ -313,7 +291,7 @@ async function modelListCommand(): Promise<void> {
   }
 
   console.log("\nCloud Models:");
-  for (const model of config.models.models.filter((m) => m.type === "cloud")) {
+  for (const model of config.models.models.filter((m: { type: string }) => m.type === "cloud")) {
     const status = model.enabled ? "✓" : "✗";
     const isDefault = model.name === config.models.default.cloud ? "(default)" : "";
     console.log(`  ${status} ${model.name} ${isDefault}`);

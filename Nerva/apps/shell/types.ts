@@ -7,6 +7,7 @@ export interface ShellConfig {
   historySize?: number;
   scratchpadPath?: string;
   theme?: ShellTheme;
+  modelName?: string;
 }
 
 export interface ShellTheme {
