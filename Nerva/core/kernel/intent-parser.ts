@@ -53,6 +53,18 @@ Common actions to extract:
 - read, write, list, search, create, delete, copy, move (file operations)
 - fetch, download, request, get, post (web operations)
 - run, execute, command (process operations)
+- commit, push, pull, diff, log, branch, checkout, stage, clone (git operations)
+- analyze, refactor, lint, explain (code operations)
+- copy, paste, clipboard (clipboard operations)
+- query, select, insert, update (database operations)
+- container, deploy (docker operations)
+- pdf, extract (PDF operations)
+- ssh, remote (SSH operations)
+- send, email, mail (email operations)
+- schedule, meeting, calendar, appointment (calendar operations)
+- describe, ocr, image (image operations)
+- transcribe, speak, record (audio operations)
+- screenshot, capture (screenshot operations)
 - summarize, explain, analyze (LLM operations)
 - plan, research, build (complex multi-step operations)`;
 
@@ -211,30 +223,38 @@ export class IntentParser {
    */
   private extractAction(words: string[]): string {
     const actionVerbs = [
-      "read",
-      "write",
-      "create",
-      "delete",
-      "list",
-      "search",
-      "find",
-      "copy",
-      "move",
-      "fetch",
-      "download",
-      "get",
-      "post",
-      "run",
-      "execute",
-      "summarize",
-      "explain",
-      "analyze",
-      "plan",
-      "research",
-      "build",
-      "open",
-      "show",
-      "display",
+      // File operations
+      "read", "write", "create", "delete", "list", "search", "find", "copy", "move",
+      // Web operations
+      "fetch", "download", "get", "post",
+      // Process operations
+      "run", "execute",
+      // LLM / general
+      "summarize", "explain", "analyze", "plan", "research", "build", "open", "show", "display",
+      // Git operations
+      "commit", "push", "pull", "diff", "log", "branch", "checkout", "stage", "clone",
+      // Docker operations
+      "deploy", "container",
+      // Code operations
+      "refactor", "lint",
+      // Clipboard
+      "paste", "clipboard",
+      // Database
+      "query", "select", "insert", "update",
+      // PDF
+      "pdf", "extract",
+      // SSH
+      "ssh", "remote",
+      // Email
+      "email", "send", "mail",
+      // Calendar
+      "schedule", "meeting", "calendar", "appointment",
+      // Image
+      "describe", "ocr", "image",
+      // Audio
+      "transcribe", "speak", "record",
+      // Screenshot
+      "screenshot", "capture",
     ];
 
     for (const word of words) {

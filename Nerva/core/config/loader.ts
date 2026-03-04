@@ -210,6 +210,16 @@ export class ConfigLoader {
     const fs = raw.filesystem as Record<string, unknown> || {};
     const net = raw.network as Record<string, unknown> || {};
     const cmd = raw.commands as Record<string, unknown> || {};
+    const gitRaw = raw.git as Record<string, unknown> || {};
+    const dockerRaw = raw.docker as Record<string, unknown> || {};
+    const dbRaw = raw.database as Record<string, unknown> || {};
+    const sshRaw = raw.ssh as Record<string, unknown> || {};
+    const emailRaw = raw.email as Record<string, unknown> || {};
+    const calRaw = raw.calendar as Record<string, unknown> || {};
+    const clipRaw = raw.clipboard as Record<string, unknown> || {};
+    const imgRaw = raw.image as Record<string, unknown> || {};
+    const audioRaw = raw.audio as Record<string, unknown> || {};
+    const sshotRaw = raw.screenshot as Record<string, unknown> || {};
     const llm = raw.llm as Record<string, unknown> || {};
     const audit = raw.audit as Record<string, unknown> || {};
     const rateLimit = net.rate_limit as Record<string, number> || {};
@@ -238,6 +248,71 @@ export class ConfigLoader {
         timeoutSeconds: Number(cmd.timeout_seconds || defaults.commands.timeoutSeconds),
         maxOutputSize: Number(cmd.max_output_size || defaults.commands.maxOutputSize),
         maxConcurrent: Number(cmd.max_concurrent || defaults.commands.maxConcurrent),
+      },
+      git: {
+        allowPush: gitRaw.allow_push === true,
+        allowForcePush: gitRaw.allow_force_push === true,
+        allowedRemotes: (gitRaw.allowed_remotes as string[]) || defaults.git.allowedRemotes,
+        maxLogCount: Number(gitRaw.max_log_count || defaults.git.maxLogCount),
+      },
+      docker: {
+        allowStart: dockerRaw.allow_start !== false,
+        allowStop: dockerRaw.allow_stop !== false,
+        allowBuild: dockerRaw.allow_build === true,
+        allowExec: dockerRaw.allow_exec === true,
+        allowRemove: dockerRaw.allow_remove === true,
+        maxLogLines: Number(dockerRaw.max_log_lines || defaults.docker.maxLogLines),
+      },
+      database: {
+        allowedDatabases: (dbRaw.allowed_databases as string[]) || defaults.database.allowedDatabases,
+        readOnly: dbRaw.read_only !== false,
+        allowWrite: dbRaw.allow_write === true,
+        maxRows: Number(dbRaw.max_rows || defaults.database.maxRows),
+        blockedOperations: (dbRaw.blocked_operations as string[]) || defaults.database.blockedOperations,
+        maxQueryTimeSeconds: Number(dbRaw.max_query_time_seconds || defaults.database.maxQueryTimeSeconds),
+      },
+      ssh: {
+        allowedHosts: (sshRaw.allowed_hosts as string[]) || defaults.ssh.allowedHosts,
+        blockedCommands: (sshRaw.blocked_commands as string[]) || defaults.ssh.blockedCommands,
+        timeoutSeconds: Number(sshRaw.timeout_seconds || defaults.ssh.timeoutSeconds),
+        allowUpload: sshRaw.allow_upload === true,
+        allowDownload: sshRaw.allow_download !== false,
+        maxTransferSize: Number(sshRaw.max_transfer_size || defaults.ssh.maxTransferSize),
+      },
+      email: {
+        allowSend: emailRaw.allow_send === true,
+        allowedRecipients: (emailRaw.allowed_recipients as string[]) || defaults.email.allowedRecipients,
+        blockedRecipients: (emailRaw.blocked_recipients as string[]) || defaults.email.blockedRecipients,
+        maxAttachmentSize: Number(emailRaw.max_attachment_size || defaults.email.maxAttachmentSize),
+        requireConfirmation: emailRaw.require_confirmation !== false,
+      },
+      calendar: {
+        allowCreate: calRaw.allow_create !== false,
+        allowDelete: calRaw.allow_delete === true,
+        allowUpdate: calRaw.allow_update !== false,
+        maxEventsFetch: Number(calRaw.max_events_fetch || defaults.calendar.maxEventsFetch),
+        defaultCalendar: String(calRaw.default_calendar || defaults.calendar.defaultCalendar),
+      },
+      clipboard: {
+        allowRead: clipRaw.allow_read !== false,
+        allowWrite: clipRaw.allow_write !== false,
+        maxContentSize: Number(clipRaw.max_content_size || defaults.clipboard.maxContentSize),
+      },
+      image: {
+        model: String(imgRaw.model || defaults.image.model),
+        maxImageSize: Number(imgRaw.max_image_size || defaults.image.maxImageSize),
+        supportedFormats: (imgRaw.supported_formats as string[]) || defaults.image.supportedFormats,
+      },
+      audio: {
+        transcriptionModel: String(audioRaw.transcription_model || defaults.audio.transcriptionModel),
+        ttsEnabled: audioRaw.tts_enabled === true,
+        maxAudioSize: Number(audioRaw.max_audio_size || defaults.audio.maxAudioSize),
+        supportedFormats: (audioRaw.supported_formats as string[]) || defaults.audio.supportedFormats,
+      },
+      screenshot: {
+        allowCapture: sshotRaw.allow_capture !== false,
+        outputDirectory: String(sshotRaw.output_directory || defaults.screenshot.outputDirectory),
+        maxCapturesPerMinute: Number(sshotRaw.max_captures_per_minute || defaults.screenshot.maxCapturesPerMinute),
       },
       llm: {
         maxTokensPerRequest: Number(llm.max_tokens_per_request || defaults.llm.maxTokensPerRequest),

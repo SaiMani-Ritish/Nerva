@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-01-23
+
+### Added
+
+#### New Tools (12 tools, bringing total to 15)
+- **Git Tool**: status, commit, push, pull, diff, log, branch, checkout, add, clone — with push disabled by default
+- **Docker Tool**: ps, images, logs, start, stop, restart, build, pull, exec — with build/exec disabled by default
+- **Code Tool**: analyze, refactor, explain, lint, dependencies, complexity — zero-dependency code analysis
+- **Clipboard Tool**: cross-platform read/write using native OS commands (pbcopy, xclip, PowerShell)
+- **Database Tool**: SQLite queries via sqlite3 CLI — read-only by default, SQL injection protection
+- **PDF Tool**: read, extract, metadata, summarize — using poppler-utils (pdftotext/pdfinfo)
+- **SSH Tool**: remote exec, upload, download via ssh/scp — hosts must be explicitly whitelisted
+- **Email Tool**: send, read, list, search — SMTP/IMAP with send disabled by default and confirmation required
+- **Calendar Tool**: Google Calendar integration — list, create, update, delete events
+- **Image Tool**: analyze, describe, OCR, compare — via Ollama vision models (llava)
+- **Audio Tool**: transcribe (Whisper), speak (native TTS), analyze (ffprobe) — cross-platform
+- **Screenshot Tool**: full screen, window, region capture — using platform-native commands
+
+#### Configuration
+- Added security policies for all 12 new tools in `policies.yaml`
+- Added tool enable/disable flags in `tools.yaml` (opt-in for tools needing external setup)
+- Added policy type definitions for all new tools in config types
+- Config loader now parses all new policy sections from YAML with sensible defaults
+
+#### Kernel Integration
+- Intent parser recognizes 40+ new action verbs (commit, push, query, transcribe, screenshot, etc.)
+- Router maps all new actions to appropriate tools with correct input parameter mapping
+- Kernel system prompt updated to describe all 15 tool capabilities
+- Default tool descriptions updated for LLM-assisted routing
+
+### Security
+- Git push disabled by default (`allow_push: false`), force push always blocked
+- Database queries read-only by default, DROP/TRUNCATE/ALTER blocked
+- SSH requires explicit host whitelisting (empty allowlist = disabled)
+- Email sending disabled by default with mandatory confirmation
+- Docker exec/build disabled by default
+- Screenshot rate-limited (10/minute)
+- All tools respect sandboxing and size limits
+
+---
+
 ## [0.1.0] - 2025-01-10
 
 ### Added

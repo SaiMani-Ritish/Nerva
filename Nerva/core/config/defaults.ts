@@ -79,6 +79,81 @@ export function getDefaults(): NervaConfig {
         maxConcurrent: 5,
       },
 
+      git: {
+        allowPush: false,
+        allowForcePush: false,
+        allowedRemotes: ["origin"],
+        maxLogCount: 100,
+      },
+
+      docker: {
+        allowStart: true,
+        allowStop: true,
+        allowBuild: false,
+        allowExec: false,
+        allowRemove: false,
+        maxLogLines: 500,
+      },
+
+      database: {
+        allowedDatabases: ["./workspace/*.db", "./scratch/*.db"],
+        readOnly: true,
+        allowWrite: false,
+        maxRows: 1000,
+        blockedOperations: ["DROP", "TRUNCATE", "ALTER"],
+        maxQueryTimeSeconds: 10,
+      },
+
+      ssh: {
+        allowedHosts: [],
+        blockedCommands: ["rm -rf", "dd", "mkfs", "fdisk"],
+        timeoutSeconds: 30,
+        allowUpload: false,
+        allowDownload: true,
+        maxTransferSize: 50 * 1024 * 1024,
+      },
+
+      email: {
+        allowSend: false,
+        allowedRecipients: [],
+        blockedRecipients: [],
+        maxAttachmentSize: 10 * 1024 * 1024,
+        requireConfirmation: true,
+      },
+
+      calendar: {
+        allowCreate: true,
+        allowDelete: false,
+        allowUpdate: true,
+        maxEventsFetch: 50,
+        defaultCalendar: "primary",
+      },
+
+      clipboard: {
+        allowRead: true,
+        allowWrite: true,
+        maxContentSize: 1024 * 1024,
+      },
+
+      image: {
+        model: "llava:7b",
+        maxImageSize: 20 * 1024 * 1024,
+        supportedFormats: ["jpg", "jpeg", "png", "gif", "webp", "bmp"],
+      },
+
+      audio: {
+        transcriptionModel: "whisper",
+        ttsEnabled: false,
+        maxAudioSize: 25 * 1024 * 1024,
+        supportedFormats: ["mp3", "wav", "ogg", "m4a", "flac"],
+      },
+
+      screenshot: {
+        allowCapture: true,
+        outputDirectory: "./scratch",
+        maxCapturesPerMinute: 10,
+      },
+
       llm: {
         maxTokensPerRequest: 4096,
         maxCostPerRequest: 1.0,
@@ -142,6 +217,46 @@ export function mergeWithDefaults(
       commands: {
         ...defaults.policies.commands,
         ...userConfig.policies?.commands,
+      },
+      git: {
+        ...defaults.policies.git,
+        ...userConfig.policies?.git,
+      },
+      docker: {
+        ...defaults.policies.docker,
+        ...userConfig.policies?.docker,
+      },
+      database: {
+        ...defaults.policies.database,
+        ...userConfig.policies?.database,
+      },
+      ssh: {
+        ...defaults.policies.ssh,
+        ...userConfig.policies?.ssh,
+      },
+      email: {
+        ...defaults.policies.email,
+        ...userConfig.policies?.email,
+      },
+      calendar: {
+        ...defaults.policies.calendar,
+        ...userConfig.policies?.calendar,
+      },
+      clipboard: {
+        ...defaults.policies.clipboard,
+        ...userConfig.policies?.clipboard,
+      },
+      image: {
+        ...defaults.policies.image,
+        ...userConfig.policies?.image,
+      },
+      audio: {
+        ...defaults.policies.audio,
+        ...userConfig.policies?.audio,
+      },
+      screenshot: {
+        ...defaults.policies.screenshot,
+        ...userConfig.policies?.screenshot,
       },
       llm: {
         ...defaults.policies.llm,

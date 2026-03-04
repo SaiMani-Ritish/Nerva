@@ -65,7 +65,7 @@ node dist/packages/cli/index.js
 
 ---
 
-## 🎯 What is Nerva?
+## What is Nerva?
 
 Nerva reimagines the operating system with an LLM at its core:
 
@@ -86,7 +86,7 @@ Nerva reimagines the operating system with an LLM at its core:
 
 ---
 
-## What Can Nerva Do So Far?
+## What Can Nerva Do?
 
 ### File Operations
 ```
@@ -106,7 +106,92 @@ search the web for "TypeScript best practices"
 ```
 run ls -la
 execute npm --version
-run git status
+```
+
+### Git Version Control
+```
+git status
+commit my changes with message "fix bug"
+diff
+log
+branch feature/new-tool
+checkout main
+```
+
+### Code Analysis
+```
+analyze src/kernel.ts
+lint src/tools/fs.ts
+show complexity of core/kernel/router.ts
+list dependencies
+refactor src/utils.ts "rename X to Y"
+```
+
+### Clipboard
+```
+paste                        (read clipboard)
+copy "hello world"           (write to clipboard)
+```
+
+### Docker Management
+```
+list containers
+docker images
+docker logs my-container
+stop my-container
+```
+
+### Database Queries
+```
+connect to ./workspace/data.db
+show tables
+query SELECT * FROM users
+schema users
+```
+
+### PDF Reading
+```
+read document.pdf
+extract pages 1-5 from report.pdf
+pdf metadata manual.pdf
+```
+
+### SSH Remote Commands
+```
+ssh user@server.com uptime
+remote user@prod df -h
+```
+
+### Email
+```
+send email to john@example.com subject "Meeting" body "See you at 3pm"
+list emails
+```
+
+### Calendar
+```
+what's on my calendar today?
+schedule meeting "Team standup" tomorrow at 10am
+```
+
+### Image Analysis
+```
+describe screenshot.png
+ocr document-scan.jpg
+analyze photo.png "what color is the car?"
+```
+
+### Audio
+```
+transcribe recording.mp3
+speak "Hello, world!"
+analyze audio.wav
+```
+
+### Screenshot
+```
+take a screenshot
+capture region 0 0 800 600
 ```
 
 ### Conversational AI
@@ -139,18 +224,36 @@ Explain how the kernel works
 - **Scratchpad** (Ctrl+P) for notes
 - **History** with persistence
 
-### Built-in Tools
+### Built-in Tools (15 total)
 
-| Tool | Description |
-|------|-------------|
-| `fs` | File operations (read, write, list, search) |
-| `web` | HTTP requests and web search |
-| `process` | Execute system commands |
+| Tool | Description | Status |
+|------|-------------|--------|
+| `fs` | File operations (read, write, list, search) | Enabled |
+| `web` | HTTP requests and web search | Enabled |
+| `process` | Execute system commands | Enabled |
+| `git` | Git version control (status, commit, diff, log, push, pull) | Enabled |
+| `code` | Code analysis, linting, complexity, refactoring | Enabled |
+| `clipboard` | System clipboard read/write | Enabled |
+| `docker` | Container management (ps, images, logs, start, stop) | Opt-in |
+| `database` | SQLite queries (query, tables, schema) | Opt-in |
+| `pdf` | PDF reading and text extraction | Enabled |
+| `ssh` | Remote server commands via SSH | Opt-in |
+| `email` | Send and read emails via SMTP/IMAP | Opt-in |
+| `calendar` | Google Calendar integration | Opt-in |
+| `image` | Image analysis via Ollama vision models | Opt-in |
+| `audio` | Transcription (Whisper) and text-to-speech | Opt-in |
+| `screenshot` | Screen capture (full, window, region) | Opt-in |
+
+> **Enabled** = works out of the box. **Opt-in** = needs external setup (toggle in `config/tools.yaml`).
 
 ### Security
 
 - **Sandboxed filesystem** — Only access allowed directories
 - **Command whitelist** — Only approved commands can run
+- **Git push disabled by default** — Prevents accidental pushes
+- **Database read-only by default** — No accidental writes
+- **SSH hosts must be whitelisted** — No surprise connections
+- **Email send disabled by default** — No spam risk
 - **Rate limiting** — Protection against runaway requests
 - **Secret redaction** — Sensitive data never logged
 
@@ -204,7 +307,7 @@ filesystem:
 
 ---
 
-## 📖 CLI Commands
+## CLI Commands
 
 ```bash
 nerva                    # Start the shell
@@ -222,7 +325,7 @@ nerva version            # Show version
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 nerva/
@@ -244,7 +347,7 @@ nerva/
 
 ---
 
-## 🧪 Development
+## Development
 
 ### Run Tests
 
@@ -271,7 +374,7 @@ pnpm format            # Format with Prettier
 
 ---
 
-## 🔧 Extending Nerva
+## Extending Nerva
 
 ### Add a Custom Tool
 
@@ -315,7 +418,7 @@ See `core/agents/` for examples of Planner, Executor, and Summarizer agents.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
@@ -334,13 +437,13 @@ pnpm test
 
 ---
 
-## 📄 License
+## License
 
 Apache License 2.0 — See [LICENSE](LICENSE) for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Ollama](https://ollama.com/) — Local LLM server
 - [Qwen](https://qwenlm.github.io/) — Efficient open-weight models

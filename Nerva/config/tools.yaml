@@ -6,40 +6,75 @@ tools:
   fs:
     enabled: true
     description: "Filesystem operations (read, write, list, search)"
-    # Inherits security policies from policies.yaml
 
   # Web tool
   web:
     enabled: true
     description: "HTTP requests and web search"
-    search_provider: duckduckgo  # or: google, bing, searxng
-    user_agent: "Nerva/0.1.0"
-    # Inherits security policies from policies.yaml
+    search_provider: duckduckgo
+    user_agent: "Nerva/0.2.0"
 
   # Process tool
   process:
     enabled: true
     description: "Execute system commands"
-    # Inherits security policies from policies.yaml
 
-  # Future tools (disabled)
+  # Git tool
+  git:
+    enabled: true
+    description: "Git version control operations"
+
+  # Code analysis tool
+  code:
+    enabled: true
+    description: "Code analysis, explanation, and refactoring"
+
+  # Clipboard tool
   clipboard:
-    enabled: false
-    description: "Clipboard read/write"
+    enabled: true
+    description: "System clipboard read/write"
 
-  system:
-    enabled: false
-    description: "System information and control"
-
-  database:
-    enabled: false
-    description: "Database queries (SQL, NoSQL)"
-
+  # Docker tool
   docker:
     enabled: false
     description: "Docker container management"
 
-  git:
+  # Database tool
+  database:
     enabled: false
-    description: "Git operations"
+    description: "SQLite database queries"
 
+  # PDF tool
+  pdf:
+    enabled: true
+    description: "PDF reading and text extraction"
+
+  # SSH tool
+  ssh:
+    enabled: false
+    description: "Remote server commands via SSH"
+
+  # Email tool
+  email:
+    enabled: false
+    description: "Send and read emails"
+
+  # Calendar tool
+  calendar:
+    enabled: false
+    description: "Google Calendar management"
+
+  # Image analysis tool
+  image:
+    enabled: false
+    description: "Image analysis via vision models"
+
+  # Audio tool
+  audio:
+    enabled: false
+    description: "Audio transcription and text-to-speech"
+
+  # Screenshot tool
+  screenshot:
+    enabled: false
+    description: "Screen capture"

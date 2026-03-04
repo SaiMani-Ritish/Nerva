@@ -91,10 +91,95 @@ export interface AuditPolicy {
   retentionDays: number;
 }
 
+export interface GitPolicy {
+  allowPush: boolean;
+  allowForcePush: boolean;
+  allowedRemotes: string[];
+  maxLogCount: number;
+}
+
+export interface DockerPolicy {
+  allowStart: boolean;
+  allowStop: boolean;
+  allowBuild: boolean;
+  allowExec: boolean;
+  allowRemove: boolean;
+  maxLogLines: number;
+}
+
+export interface DatabasePolicy {
+  allowedDatabases: string[];
+  readOnly: boolean;
+  allowWrite: boolean;
+  maxRows: number;
+  blockedOperations: string[];
+  maxQueryTimeSeconds: number;
+}
+
+export interface SshPolicy {
+  allowedHosts: string[];
+  blockedCommands: string[];
+  timeoutSeconds: number;
+  allowUpload: boolean;
+  allowDownload: boolean;
+  maxTransferSize: number;
+}
+
+export interface EmailPolicy {
+  allowSend: boolean;
+  allowedRecipients: string[];
+  blockedRecipients: string[];
+  maxAttachmentSize: number;
+  requireConfirmation: boolean;
+}
+
+export interface CalendarPolicy {
+  allowCreate: boolean;
+  allowDelete: boolean;
+  allowUpdate: boolean;
+  maxEventsFetch: number;
+  defaultCalendar: string;
+}
+
+export interface ClipboardPolicy {
+  allowRead: boolean;
+  allowWrite: boolean;
+  maxContentSize: number;
+}
+
+export interface ImagePolicy {
+  model: string;
+  maxImageSize: number;
+  supportedFormats: string[];
+}
+
+export interface AudioPolicy {
+  transcriptionModel: string;
+  ttsEnabled: boolean;
+  maxAudioSize: number;
+  supportedFormats: string[];
+}
+
+export interface ScreenshotPolicy {
+  allowCapture: boolean;
+  outputDirectory: string;
+  maxCapturesPerMinute: number;
+}
+
 export interface PoliciesConfig {
   filesystem: FilesystemPolicy;
   network: NetworkPolicy;
   commands: CommandsPolicy;
+  git: GitPolicy;
+  docker: DockerPolicy;
+  database: DatabasePolicy;
+  ssh: SshPolicy;
+  email: EmailPolicy;
+  calendar: CalendarPolicy;
+  clipboard: ClipboardPolicy;
+  image: ImagePolicy;
+  audio: AudioPolicy;
+  screenshot: ScreenshotPolicy;
   llm: LLMPolicy;
   audit: AuditPolicy;
 }

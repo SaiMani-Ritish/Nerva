@@ -200,6 +200,68 @@ export class Router {
       execute: { tool: "process", operation: "exec" },
       exec: { tool: "process", operation: "exec" },
       command: { tool: "process", operation: "exec" },
+
+      // Git operations
+      commit: { tool: "git", operation: "commit" },
+      push: { tool: "git", operation: "push" },
+      pull: { tool: "git", operation: "pull" },
+      diff: { tool: "git", operation: "diff" },
+      log: { tool: "git", operation: "log" },
+      branch: { tool: "git", operation: "branch" },
+      checkout: { tool: "git", operation: "checkout" },
+      stage: { tool: "git", operation: "add" },
+      clone: { tool: "git", operation: "clone" },
+
+      // Docker operations
+      container: { tool: "docker", operation: "ps" },
+      deploy: { tool: "docker", operation: "build" },
+
+      // Code operations
+      analyze: { tool: "code", operation: "analyze" },
+      refactor: { tool: "code", operation: "refactor" },
+      lint: { tool: "code", operation: "lint" },
+
+      // Clipboard operations
+      paste: { tool: "clipboard", operation: "read" },
+      clipboard: { tool: "clipboard", operation: "read" },
+
+      // Database operations
+      query: { tool: "database", operation: "query" },
+      select: { tool: "database", operation: "query" },
+      insert: { tool: "database", operation: "execute" },
+
+      // PDF operations
+      pdf: { tool: "pdf", operation: "read" },
+      extract: { tool: "pdf", operation: "extract" },
+
+      // SSH operations
+      ssh: { tool: "ssh", operation: "exec" },
+      remote: { tool: "ssh", operation: "exec" },
+
+      // Email operations
+      email: { tool: "email", operation: "list" },
+      send: { tool: "email", operation: "send" },
+      mail: { tool: "email", operation: "send" },
+
+      // Calendar operations
+      schedule: { tool: "calendar", operation: "create" },
+      meeting: { tool: "calendar", operation: "create" },
+      calendar: { tool: "calendar", operation: "today" },
+      appointment: { tool: "calendar", operation: "create" },
+
+      // Image operations
+      describe: { tool: "image", operation: "describe" },
+      ocr: { tool: "image", operation: "ocr" },
+      image: { tool: "image", operation: "describe" },
+
+      // Audio operations
+      transcribe: { tool: "audio", operation: "transcribe" },
+      speak: { tool: "audio", operation: "speak" },
+      record: { tool: "audio", operation: "transcribe" },
+
+      // Screenshot operations
+      screenshot: { tool: "screenshot", operation: "capture" },
+      capture: { tool: "screenshot", operation: "capture" },
     };
 
     const mapping = actionMapping[intent.action.toLowerCase()];
@@ -245,6 +307,11 @@ export class Router {
         case "read":
         case "write":
         case "delete":
+        case "analyze":
+        case "explain":
+        case "lint":
+        case "complexity":
+        case "refactor":
           inputs.path = intent.target;
           break;
         case "list":
@@ -258,6 +325,32 @@ export class Router {
           break;
         case "exec":
           inputs.command = intent.target;
+          break;
+        case "commit":
+          inputs.message = intent.target;
+          break;
+        case "checkout":
+        case "branch":
+          inputs.branch = intent.target;
+          break;
+        case "clone":
+          inputs.url = intent.target;
+          break;
+        case "query":
+        case "execute":
+          inputs.sql = intent.target;
+          break;
+        case "transcribe":
+        case "describe":
+        case "ocr":
+        case "extract":
+          inputs.path = intent.target;
+          break;
+        case "speak":
+          inputs.text = intent.target;
+          break;
+        case "send":
+          inputs.to = intent.target;
           break;
         default:
           inputs.target = intent.target;
@@ -299,8 +392,7 @@ export class Router {
     if (this.toolRegistry) {
       return this.toolRegistry.list().map((t) => t.name);
     }
-    // Default tools when no registry
-    return ["fs", "web", "process"];
+    return ["fs", "web", "process", "git", "code", "clipboard", "docker", "database", "pdf", "ssh", "email", "calendar", "image", "audio", "screenshot"];
   }
 
   /**
@@ -323,6 +415,18 @@ export class Router {
     }
     return `- fs: File system operations
 - web: HTTP requests and web fetching
-- process: Execute system commands`;
+- process: Execute system commands
+- git: Git version control operations
+- code: Code analysis, linting, and refactoring
+- clipboard: System clipboard read/write
+- docker: Docker container management
+- database: SQLite database queries
+- pdf: PDF reading and extraction
+- ssh: Remote server commands via SSH
+- email: Send and read emails
+- calendar: Calendar management
+- image: Image analysis via vision models
+- audio: Audio transcription and text-to-speech
+- screenshot: Screen capture`;
   }
 }

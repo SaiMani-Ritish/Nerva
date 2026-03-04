@@ -3,21 +3,18 @@
 
 # Filesystem policies
 filesystem:
-  # Allowed root directories (sandbox)
   allow_roots:
     - ./workspace
     - ./scratch
     - ./examples
 
-  # Deny patterns (glob)
   deny_patterns:
-    - ".*"                    # Hidden files
-    - "**/node_modules/**"    # Dependencies
-    - "**/.git/**"            # Git internals
-    - "**/dist/**"            # Build outputs
+    - ".*"
+    - "**/node_modules/**"
+    - "**/.git/**"
+    - "**/dist/**"
     - "**/build/**"
 
-  # Deny specific paths
   deny_paths:
     - /etc
     - /usr
@@ -26,40 +23,29 @@ filesystem:
     - /bin
     - /sbin
 
-  # Size limits
-  max_file_size: 10485760  # 10 MB
-  max_read_files: 100      # Per operation
+  max_file_size: 10485760
+  max_read_files: 100
 
 # Network policies
 network:
-  # Allowed hosts (with wildcard support)
   allowed_hosts:
-    - "*"  # Allow all by default (can restrict in production)
-    # - "*.wikipedia.org"
-    # - "api.github.com"
-    # - "*.arxiv.org"
+    - "*"
 
-  # Blocked hosts
   blocked_hosts:
     - "localhost"
     - "127.0.0.1"
     - "0.0.0.0"
     - "*.local"
 
-  # Rate limiting
   rate_limit:
     requests: 10
     window_seconds: 60
 
-  # Timeout
   timeout_seconds: 30
-
-  # Maximum response size
-  max_response_size: 10485760  # 10 MB
+  max_response_size: 10485760
 
 # Command execution policies
 commands:
-  # Whitelist of allowed commands
   whitelist:
     - git
     - npm
@@ -73,8 +59,8 @@ commands:
     - grep
     - find
     - echo
+    - docker
 
-  # Blacklist (never allow, even if whitelisted)
   blacklist:
     - rm
     - sudo
@@ -83,43 +69,123 @@ commands:
     - chown
     - dd
 
-  # Execution limits
   timeout_seconds: 30
-  max_output_size: 1048576  # 1 MB
+  max_output_size: 1048576
   max_concurrent: 5
+
+# Git policies
+git:
+  allow_push: false
+  allow_force_push: false
+  allowed_remotes:
+    - origin
+  max_log_count: 100
+
+# Docker policies
+docker:
+  allow_start: true
+  allow_stop: true
+  allow_build: false
+  allow_exec: false
+  allow_remove: false
+  max_log_lines: 500
+
+# Database policies
+database:
+  allowed_databases:
+    - "./workspace/*.db"
+    - "./scratch/*.db"
+  read_only: true
+  allow_write: false
+  max_rows: 1000
+  blocked_operations:
+    - DROP
+    - TRUNCATE
+    - ALTER
+  max_query_time_seconds: 10
+
+# SSH policies
+ssh:
+  allowed_hosts: []
+  blocked_commands:
+    - "rm -rf"
+    - dd
+    - mkfs
+    - fdisk
+  timeout_seconds: 30
+  allow_upload: false
+  allow_download: true
+  max_transfer_size: 52428800
+
+# Email policies
+email:
+  allow_send: false
+  allowed_recipients: []
+  blocked_recipients: []
+  max_attachment_size: 10485760
+  require_confirmation: true
+
+# Calendar policies
+calendar:
+  allow_create: true
+  allow_delete: false
+  allow_update: true
+  max_events_fetch: 50
+  default_calendar: "primary"
+
+# Clipboard policies
+clipboard:
+  allow_read: true
+  allow_write: true
+  max_content_size: 1048576
+
+# Image policies
+image:
+  model: "llava:7b"
+  max_image_size: 20971520
+  supported_formats:
+    - jpg
+    - jpeg
+    - png
+    - gif
+    - webp
+    - bmp
+
+# Audio policies
+audio:
+  transcription_model: "whisper"
+  tts_enabled: false
+  max_audio_size: 26214400
+  supported_formats:
+    - mp3
+    - wav
+    - ogg
+    - m4a
+    - flac
+
+# Screenshot policies
+screenshot:
+  allow_capture: true
+  output_directory: "./scratch"
+  max_captures_per_minute: 10
 
 # LLM-specific policies
 llm:
-  # Token budget per operation
   max_tokens_per_request: 4096
-
-  # Cost limits (USD)
   max_cost_per_request: 1.0
   max_cost_per_hour: 10.0
-
-  # Rate limiting
   max_requests_per_minute: 60
-
-  # Content filtering
   enable_content_filter: false
   blocked_topics: []
 
 # Logging and audit
 audit:
-  # Log all tool calls
   log_tool_calls: true
-
-  # Log LLM requests/responses
   log_llm_calls: true
-
-  # Redact sensitive data
   redact_secrets: true
   secret_patterns:
     - "api[_-]?key"
     - "password"
     - "token"
     - "secret"
-
-  # Log retention
   retention_days: 30
-

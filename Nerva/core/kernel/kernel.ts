@@ -302,6 +302,18 @@ export class Kernel {
 - File operations (read, write, list, search files)
 - Running system commands safely
 - Web requests and searches
+- Git version control (status, commit, diff, log, branch, push, pull)
+- Code analysis, linting, and refactoring
+- System clipboard read/write
+- Docker container management
+- SQLite database queries
+- PDF reading and text extraction
+- SSH remote server commands
+- Email send/read
+- Calendar management
+- Image analysis via vision models
+- Audio transcription and text-to-speech
+- Screenshot capture
 - Planning and executing multi-step tasks
 
 Be helpful, concise, and friendly. If asked what you can do, explain your capabilities briefly.`;

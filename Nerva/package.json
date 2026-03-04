@@ -1,6 +1,6 @@
 {
   "name": "nerva",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An LLM-native OS with typing-first UX and minimal GUI",
   "private": true,
   "type": "module",
