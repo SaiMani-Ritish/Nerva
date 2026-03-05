@@ -237,5 +237,5 @@ Inspired by:
 
 ---
 
-**Building to understand low level programming for the age of language-native computing**
+**Building to understand AI workflows and learn something from it.**
 
