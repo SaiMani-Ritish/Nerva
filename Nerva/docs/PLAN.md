@@ -4,7 +4,7 @@
 
 ## MVP Scope
 
-Build a minimal but functional LLM-native OS with:
+Build a minimal but functional LLM-native agent runtime with:
 - Core kernel for routing and orchestration
 - Three essential tools: fs (filesystem), web (HTTP), process (command execution)
 - Three agents: planner, executor, summarizer

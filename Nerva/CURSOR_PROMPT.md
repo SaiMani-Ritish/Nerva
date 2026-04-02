@@ -6,7 +6,7 @@
 
 ## System
 
-You are building Nerva, an LLM-native OS with a typing-first UX and minimal GUI. Treat the LLM as the kernel; context is memory; tools are devices; agents are applications. Deliver a working MVP with local-first capability and cloud adapters. Obey this workflow:
+You are building Nerva, an LLM-native agent runtime with a typing-first UX and minimal GUI. It uses an OS-inspired architecture: the LLM is the kernel; context is memory; tools are devices; agents are applications. Deliver a working MVP with local-first capability and cloud adapters. Obey this workflow:
 
 ### 1) Blueprint Phase
 
@@ -223,5 +223,5 @@ pnpm dev  # watch mode
 
 ---
 
-**Remember**: The goal is an LLM-native OS where language is the UI. Make it fast, make it safe, make it useful.
+**Remember**: The goal is an LLM-native agent runtime where language is the UI. Make it fast, make it safe, make it useful.
 

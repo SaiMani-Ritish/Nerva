@@ -1,10 +1,10 @@
-# From Apps to Intents: Building an LLM-Native OS
+# From Apps to Intents: Building an LLM-Native Agent Runtime
 
 ## Introduction
 
 For decades, operating systems have been built around the same core abstractions: files, processes, memory, and devices. User interfaces have evolved from command lines to GUIs to touch interfaces, but the fundamental model remains unchanged. What if we reimagined the OS with language as the primary interface and an LLM as the kernel?
 
-This is the motivation behind Nerva: an operating system where you express **intent** rather than navigate **applications**.
+This is the motivation behind Nerva: an agent runtime where you express **intent** rather than navigate **applications**.
 
 ## The Problem with Traditional OS Design
 
@@ -53,7 +53,7 @@ Research shows that expert users prefer keyboard interfaces because they:
 
 ### Mapping OS Primitives to LLM Constructs
 
-| Traditional OS | LLM-Native OS |
+| Traditional OS | LLM-Native Runtime |
 |----------------|---------------|
 | Kernel | LLM (intent router) |
 | RAM | Context window |
@@ -107,7 +107,7 @@ Vector Store (searchable long-term memory)
 Filesystem (permanent storage)
 ```
 
-**Key insight**: Token budget management is analogous to memory management. Just as an OS must decide what to keep in RAM vs. swap to disk, an LLM-native OS must decide what to keep in context vs. summarize or store in long-term memory.
+**Key insight**: Token budget management is analogous to memory management. Just as an OS must decide what to keep in RAM vs. swap to disk, an LLM-native runtime must decide what to keep in context vs. summarize or store in long-term memory.
 
 ### Tool Calls as System Calls
 
@@ -139,7 +139,7 @@ LLM Kernel: {
   }
 }
   ↓
-Tool Execution: "# Nerva\n\nAn LLM-native OS..."
+Tool Execution: "# Nerva\n\nAn LLM-native Agent Runtime..."
 ```
 
 ### Prompts as APIs
@@ -680,9 +680,9 @@ Nerva represents a fundamental shift in OS design:
 **From**: Manual workflow orchestration
 **To**: LLM-driven planning and execution
 
-The result is an operating system that feels less like navigating a hierarchy of folders and windows, and more like having a conversation with an intelligent assistant that can actually **do** things.
+The result is a runtime that feels less like navigating a hierarchy of folders and windows, and more like having a conversation with an intelligent assistant that can actually **do** things.
 
-This is the future of computing: not smarter applications, but a smarter operating system that understands your intent and makes it happen.
+This is the future of computing: not smarter applications, but a smarter agent runtime that understands your intent and makes it happen.
 
 ---
 

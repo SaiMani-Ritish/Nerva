@@ -298,7 +298,7 @@ export class Kernel {
     context: Context
   ): Promise<string> {
     // System prompt that describes Nerva
-    const systemPrompt = `You are Nerva, an intelligent LLM-native operating system assistant. You help users with:
+    const systemPrompt = `You are Nerva, an intelligent LLM-native agent runtime assistant. You help users with:
 - File operations (read, write, list, search files)
 - Running system commands safely
 - Web requests and searches

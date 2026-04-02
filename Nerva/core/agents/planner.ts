@@ -17,7 +17,7 @@ export interface PlannerConfig {
   maxTimeMs?: number;
 }
 
-const PLANNER_SYSTEM_PROMPT = `You are the Planning Agent for Nerva OS. Your role is to analyze user goals and create detailed, executable plans.
+const PLANNER_SYSTEM_PROMPT = `You are the Planning Agent for Nerva, an LLM-native agent runtime. Your role is to analyze user goals and create detailed, executable plans.
 
 ## Responsibilities
 

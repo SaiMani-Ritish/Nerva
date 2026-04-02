@@ -10,7 +10,7 @@ export interface IntentParserConfig {
   availableTools?: string[];
 }
 
-const INTENT_SYSTEM_PROMPT = `You are an intent parser for Nerva OS. Your role is to analyze user input and extract structured intent.
+const INTENT_SYSTEM_PROMPT = `You are an intent parser for Nerva, an LLM-native agent runtime. Your role is to analyze user input and extract structured intent.
 
 ## Output Format
 

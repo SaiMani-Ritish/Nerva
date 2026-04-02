@@ -11,7 +11,7 @@ The Nerva repository has been fully initialized with all scaffolding, documentat
 - ✅ `LICENSE` - Apache 2.0 license
 - ✅ `docs/architecture.md` - Comprehensive system architecture
 - ✅ `docs/ux.md` - UX principles and keyboard-first design
-- ✅ `docs/first-principles.md` - Blog post on LLM-native OS design
+- ✅ `docs/first-principles.md` - Blog post on LLM-native agent runtime design
 - ✅ `docs/PLAN.md` - MVP build plan with milestones
 - ✅ `docs/prompts/system.md` - Canonical system prompt
 - ✅ `docs/prompts/agent_templates.md` - Agent prompt templates

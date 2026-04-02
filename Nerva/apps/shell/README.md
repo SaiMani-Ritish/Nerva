@@ -1,6 +1,6 @@
 # Nerva Shell
 
-Terminal UI (TUI) for interacting with Nerva OS.
+Terminal UI (TUI) for interacting with Nerva.
 
 ## Features
 

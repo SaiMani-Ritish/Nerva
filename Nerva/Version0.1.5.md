@@ -1,8 +1,8 @@
-# What is "OS" in Nerva?
+# What is Nerva?
 
-Nerva is an **"LLM-native Operating System"** — but not a traditional OS like Windows or Linux. It's a conceptual reimagining where:
+Nerva is an **LLM-native Agent Runtime** — it uses an OS-inspired architecture where:
 
-| Traditional OS | Nerva "OS" |
+| OS Metaphor | Nerva |
 |---|---|
 | CPU executes code | LLM interprets your intent |
 | RAM stores data | Context window is memory |
@@ -10,7 +10,7 @@ Nerva is an **"LLM-native Operating System"** — but not a traditional OS like 
 | Applications | Agents (Planner, Executor, Summarizer) |
 | Files | Knowledge |
 
-In short: Nerva is an AI-powered assistant that acts as an "operating system" for your tasks — you speak naturally, and it routes your requests to the right tools/agents.
+In short: Nerva is an AI-powered agent runtime that orchestrates your tasks — you speak naturally, and it routes your requests to the right tools/agents.
 
 ---
 
@@ -56,4 +56,4 @@ In short: Nerva is an AI-powered assistant that acts as an "operating system" fo
 
 ---
 
-The LLM (currently `qwen2.5:1.5b` via Ollama) interprets what you want and orchestrates the right tools/agents to accomplish it! 🚀
+The LLM (currently `qwen2.5:1.5b` via Ollama) interprets what you want and orchestrates the right tools/agents to accomplish it.

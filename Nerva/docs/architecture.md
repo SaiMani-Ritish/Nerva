@@ -2,7 +2,7 @@
 
 ## Overview
 
-Nerva reimagines the operating system with the LLM at its core. Instead of a traditional kernel managing processes and memory, Nerva's kernel routes natural language intents to tools and agents, managing context windows as its primary memory abstraction.
+Nerva is an LLM-native agent runtime that uses an OS-inspired architecture. Instead of a traditional kernel managing processes and memory, Nerva's kernel routes natural language intents to tools and agents, managing context windows as its primary memory abstraction.
 
 ## Core Principles
 

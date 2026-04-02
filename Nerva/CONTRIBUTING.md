@@ -255,7 +255,7 @@ refactor(memory): extract vector store interface
 
 ## Prompt Hygiene
 
-Since Nerva is an LLM-native OS, prompt quality is critical.
+Since Nerva is an LLM-native agent runtime, prompt quality is critical.
 
 ### Prompt Design Principles
 

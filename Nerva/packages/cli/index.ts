@@ -176,7 +176,7 @@ async function createModelAdapter(_config: NervaConfig): Promise<ModelAdapterRes
  */
 async function helpCommand(_args: string[]): Promise<void> {
   console.log(`
-Nerva - LLM-native OS
+Nerva - LLM-native Agent Runtime
 
 USAGE:
   nerva <command> [options]

@@ -15,7 +15,7 @@ export interface SummarizerConfig {
   defaultLevel?: "brief" | "standard" | "detailed";
 }
 
-const SUMMARIZER_SYSTEM_PROMPT = `You are the Summarizer Agent for Nerva OS. Your role is to compress information while preserving what matters.
+const SUMMARIZER_SYSTEM_PROMPT = `You are the Summarizer Agent for Nerva, an LLM-native agent runtime. Your role is to compress information while preserving what matters.
 
 ## Responsibilities
 

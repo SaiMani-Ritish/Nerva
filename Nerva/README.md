@@ -1,6 +1,6 @@
 # Nerva
 
-**An LLM-native Operating System** — Where the LLM is the kernel, context is memory, tools are devices, and agents are applications.
+**An LLM-native Agent Runtime** — Uses an OS-inspired architecture where the LLM acts as a kernel, context is memory, tools are devices, and agents are applications.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
@@ -8,7 +8,7 @@
 
 ---
 
-## ⚡ Quickstart (< 5 minutes)
+## Quickstart (< 5 minutes)
 
 ### Prerequisites
 
@@ -67,10 +67,10 @@ node dist/packages/cli/index.js
 
 ## What is Nerva?
 
-Nerva reimagines the operating system with an LLM at its core:
+Nerva is an agent runtime that uses an OS-inspired architecture with an LLM at its core:
 
-| Traditional OS | Nerva OS |
-|----------------|----------|
+| OS Metaphor | Nerva |
+|-------------|-------|
 | CPU executes code | LLM interprets intent |
 | RAM stores data | Context window is memory |
 | System calls | Tool invocations |
@@ -80,7 +80,7 @@ Nerva reimagines the operating system with an LLM at its core:
 ### Core Concepts
 
 - **Kernel** — The LLM that interprets user intent and orchestrates execution
-- **Tools** — Capabilities like filesystem, web, and process execution
+- **Tools** — 15 capabilities including filesystem, web, git, code analysis, and more
 - **Agents** — Planner, Executor, and Summarizer that handle complex tasks
 - **Memory** — Context management with automatic summarization
 
