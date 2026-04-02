@@ -1,54 +1,60 @@
-# Nerva: an LLM-native OS
+# Nerva
 
-**Mission**: A typing-first OS where the LLM is the kernel; context is memory; tools are devices; agents are apps.
+**An LLM-native Agent Runtime** — Uses an OS-inspired architecture where the LLM acts as a kernel, context is memory, tools are devices, and agents are applications.
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ## Why Nerva?
 
-I don't like GUI friction; I prefer to maximize flow via keyboard and transcripts. Traditional operating systems force you to navigate through windows, menus, and mouse clicks. Nerva lets you express intent directly through language, with the LLM routing your commands to the right tools and agents.
+Traditional interfaces force you through windows, menus, and mouse clicks. Nerva lets you express intent directly through natural language — the LLM kernel parses what you want and orchestrates the right tools and agents to make it happen. Typing-first, keyboard-driven, zero GUI friction.
+
+---
 
 ## Quickstart
 
 ### Prerequisites
 
-- **Node.js** LTS (v18+)
-- **Python** 3.10+ (optional, for demos)
-- **Model provider**: OpenAI/Anthropic API key OR local model via llama.cpp
+- **Node.js 18+** — [Download](https://nodejs.org/)
+- **pnpm** or **npm**
+- **Ollama** — [Download](https://ollama.com/) for local LLM inference
 
-### Install
+### Install & Run
 
 ```bash
 git clone https://github.com/SaiMani-Ritish/Nerva.git
-cd Nerva
+cd Nerva/Nerva
 pnpm install
-# OR: npm install
 
-# Optional: Python environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
+# Pull a local model
+ollama pull qwen2.5:1.5b
+
+# Build and start
+pnpm build
+pnpm start
 ```
 
-### Run
+### First Commands
 
-```bash
-pnpm dev
-# OR: npm run dev
-
-nerva run shell
+```
+› read package.json
+› git status
+› analyze core/kernel/kernel.ts
+› Hello, what can you do?
+› help
 ```
 
-### First task
-
-Try typing: `"Index notes, suggest study plan, create tasks"`
-
-The LLM kernel will parse your intent, route to appropriate agents, and execute the plan.
+---
 
 ## Architecture
+
+Nerva uses an OS-inspired architecture with an LLM at the core:
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    User Input                       │
-│                  (Natural Language)                 │
+│                  (Natural Language)                  │
 └─────────────────┬───────────────────────────────────┘
                   │
                   ▼
@@ -63,177 +69,132 @@ The LLM kernel will parse your intent, route to appropriate agents, and execute 
         ┌─────────┼─────────┐
         │         │         │
         ▼         ▼         ▼
-    ┌─────┐  ┌─────┐  ┌─────────┐
-    │Tools│  │Agents│ │ Memory  │
-    │(FS, │  │(Plan,│ │(Vector, │
-    │Web, │  │Exec, │ │ Cache)  │
-    │Proc)│  │Summ) │ │         │
-    └─────┘  └─────┘  └─────────┘
+    ┌───────┐ ┌───────┐ ┌─────────┐
+    │ Tools │ │Agents │ │ Memory  │
+    │(15    │ │(Plan, │ │(Vector, │
+    │ total)│ │ Exec, │ │ Context,│
+    │       │ │ Summ) │ │ Logger) │
+    └───────┘ └───────┘ └─────────┘
 ```
+
+| OS Metaphor | Nerva |
+|-------------|-------|
+| CPU executes code | LLM interprets intent |
+| RAM stores data | Context window is memory |
+| System calls | Tool invocations |
+| Applications | Agents |
+| Files | Knowledge |
 
 ### Core Concepts
 
-- **LLM as kernel**: The language model is the central orchestrator
-- **Context window as memory**: Active working memory with token budgets
-- **External storage as files**: Persistent state in sandboxed filesystem
-- **Tool calls as device drivers**: Controlled access to system capabilities
-- **Agents as applications**: Higher-level task executors (planner, executor, summarizer)
-- **Prompts as system contracts**: Well-defined interfaces between components
-- **Model adapters**: Unified interface for local (llama.cpp) and cloud providers
+- **LLM as kernel** — The language model is the central orchestrator
+- **Context window as memory** — Active working memory with token budgets
+- **Tool calls as device drivers** — Controlled access to 15 system capabilities
+- **Agents as applications** — Planner, Executor, and Summarizer for complex tasks
+- **Prompts as system contracts** — Well-defined interfaces between components
+- **Model adapters** — Unified interface for Ollama (local) and cloud providers
 
-## UX Principles
+---
 
-1. **Single input line**: Express intent directly in natural language
-2. **Composable tasks**: Chain operations through planning agents
-3. **Reversible actions**: All operations can be undone or rolled back
-4. **Transcript-as-state**: Your conversation history is the primary UI
-5. **Ctrl-K palette**: Quick access to commands and context switching
-6. **Keyboard-first**: No mouse required; optimized for flow
+## Built-in Tools (15)
+
+| Tool | Description | Status |
+|------|-------------|--------|
+| `fs` | File operations (read, write, list, search) | Enabled |
+| `web` | HTTP requests and web search | Enabled |
+| `process` | Execute system commands | Enabled |
+| `git` | Git version control (status, commit, diff, log, push, pull) | Enabled |
+| `code` | Code analysis, linting, complexity, refactoring | Enabled |
+| `clipboard` | System clipboard read/write | Enabled |
+| `docker` | Container management (ps, images, logs, start, stop) | Opt-in |
+| `database` | SQLite queries (query, tables, schema) | Opt-in |
+| `pdf` | PDF reading and text extraction | Enabled |
+| `ssh` | Remote server commands via SSH | Opt-in |
+| `email` | Send and read emails via SMTP/IMAP | Opt-in |
+| `calendar` | Google Calendar integration | Opt-in |
+| `image` | Image analysis via Ollama vision models | Opt-in |
+| `audio` | Transcription (Whisper) and text-to-speech | Opt-in |
+| `screenshot` | Screen capture (full, window, region) | Opt-in |
+
+> **Enabled** = works out of the box. **Opt-in** = needs external setup; toggle in `config/tools.yaml`.
+
+---
+
+## Security
+
+- **Sandboxed filesystem** — Only access allowed directories
+- **Command whitelist** — Only approved commands can run
+- **Git push disabled by default** — Prevents accidental pushes
+- **Database read-only by default** — No accidental writes
+- **SSH hosts must be whitelisted** — No surprise connections
+- **Email send disabled by default** — No spam risk
+- **Rate limiting** — Protection against runaway requests
+- **Secret redaction** — Sensitive data never logged
+
+---
 
 ## Configuration
 
-### Model Configuration (`config/models.yaml`)
+Config files live in `config/`:
 
-```yaml
-models:
-  - name: local-llama
-    type: local
-    path: ./models/llama-3-8b.gguf
-  - name: gpt-4
-    type: cloud
-    provider: openai
 ```
-
-### Tools Configuration (`config/tools.yaml`)
-
-```yaml
-tools:
-  fs:
-    enabled: true
-    sandbox_roots: [./workspace, ./scratch]
-  web:
-    enabled: true
-    allowed_hosts: ["*"]
-    rate_limit: 10/min
-```
-
-### Policies Configuration (`config/policies.yaml`)
-
-```yaml
-policies:
-  filesystem:
-    deny_paths: [/etc, /usr, /System]
-  commands:
-    whitelist: [git, npm, python, node]
+config/
+├── models.yaml      # Model definitions
+├── tools.yaml       # Tool enable/disable + settings
+└── policies.yaml    # Security policies for all 15 tools
 ```
 
 ### Environment Variables
 
-```bash
-# Cloud providers (optional)
-export OPENAI_API_KEY=sk-...
-export ANTHROPIC_API_KEY=sk-ant-...
+| Variable | Description |
+|----------|-------------|
+| `OLLAMA_MODEL` | Ollama model name (default: `qwen2.5:1.5b`) |
+| `OLLAMA_HOST` | Ollama server URL (default: `http://localhost:11434`) |
+| `NERVA_LOG_LEVEL` | Logging level (debug, info, warn, error) |
+| `NERVA_CONFIG_DIR` | Custom config directory |
 
-# Local model path (optional)
-export NERVA_MODEL_PATH=./models/
+---
 
-# Development
-export NERVA_LOG_LEVEL=debug
-```
+## Shell Shortcuts
 
-## Development Workflow
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+K` | Open command palette |
+| `Ctrl+T` | Thread selector (multiple conversations) |
+| `Ctrl+P` | Scratchpad for notes |
+| `↑` / `↓` | Browse command history |
+| `?` | Help menu |
+| `Ctrl+C` | Exit Nerva |
 
-### Plan → Implement → Test → Document
+---
 
-1. **Plan**: Write design in `docs/PLAN.md` with acceptance criteria
-2. **Implement**: Build in small, reviewable increments
-3. **Test**: Unit tests + e2e golden transcripts with latency budgets
-4. **Document**: Update architecture docs and CHANGELOG
-
-### Chain-of-prompts for Reliability
-
-We use explicit prompt templates in `docs/prompts/` to ensure:
-- Consistent agent behavior
-- Testable outputs
-- Cursor-friendly autonomous development
-
-### Repository Structure
+## Repository Structure
 
 ```
 Nerva/
-├── README.md               # This file
-├── CONTRIBUTING.md         # Development guidelines
-├── CHANGELOG.md            # Semantic versioning log
-├── LICENSE                 # Apache-2.0
-├── .editorconfig          # Editor settings
-├── .gitignore             # Git exclusions
-├── package.json           # Node workspace config
-├── tsconfig.json          # TypeScript config
-├── docs/                  # Documentation
-│   ├── architecture.md    # System design
-│   ├── ux.md             # UX principles
-│   ├── first-principles.md # Blog post
-│   └── prompts/          # Prompt templates
-├── core/                 # Core OS components
-│   ├── kernel/           # Message bus, routing
-│   ├── memory/           # Context cache, vector store
-│   ├── tools/            # Tool interfaces
-│   ├── agents/           # Agent implementations
-│   └── models/           # Provider adapters
-├── apps/                 # User-facing applications
-│   ├── shell/            # TUI console
-│   └── sketch/           # Minimal GUI (optional)
-├── drivers/              # System drivers
-│   ├── fs/               # Filesystem access
-│   ├── web/              # Web retrieval
-│   └── process/          # Command execution
-├── adapters/             # External integrations
-│   ├── local_llm/        # llama.cpp bindings
-│   └── cloud_llm/        # OpenAI/Anthropic
-├── packages/             # Distributable packages
-│   ├── cli/              # Command-line interface
-│   └── sdk/              # TypeScript/Python SDK
-├── examples/             # Example implementations
-│   ├── quickstart_minimal/
-│   └── agents_tour/
-├── config/               # Configuration files
-│   ├── models.yaml
-│   ├── tools.yaml
-│   └── policies.yaml
-├── scripts/              # Development scripts
-│   ├── dev.sh
-│   └── tree.sh
-└── test/                 # Test suites
-    ├── unit/
-    └── e2e/
+├── core/                 # Runtime core
+│   ├── kernel/           # Intent parsing, routing, orchestration
+│   ├── memory/           # Context manager, vector store, logger
+│   ├── tools/            # 15 tool implementations
+│   ├── agents/           # Planner, Executor, Summarizer
+│   ├── models/           # Ollama, OpenAI, Gemini adapters
+│   └── config/           # Config loader, types, defaults
+├── apps/shell/           # Terminal UI (TUI)
+├── packages/cli/         # CLI entry point
+├── config/               # YAML configuration
+├── docs/                 # Architecture & prompt docs
+└── test/                 # Unit & E2E tests
 ```
+
+---
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
-- Setup instructions
-- Code style guidelines
-- Commit conventions
-- Code review process
-- Prompt hygiene best practices
+See [CONTRIBUTING.md](Nerva/CONTRIBUTING.md) for setup instructions, code style, commit conventions, and prompt hygiene best practices.
 
-### Good First Issues
-
-Look for issues tagged with `good-first-issue`:
-- Add new tool adapters
-- Improve prompt templates
-- Write e2e test cases
-- Enhance documentation
-
-## License and Credits
+## License
 
 Licensed under [Apache-2.0](LICENSE).
-
-Inspired by:
-- LLM-as-OS research
-- Agent IDE practices
-- Keyboard-first developer tools
-- Modern OS design principles
 
 ---
 
