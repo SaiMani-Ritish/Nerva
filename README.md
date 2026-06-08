@@ -8,7 +8,7 @@
 
 ## Why Nerva?
 
-Traditional interfaces force you through windows, menus, and mouse clicks. Nerva lets you express intent directly through natural language — the LLM kernel parses what you want and orchestrates the right tools and agents to make it happen. Typing-first, keyboard-driven, zero GUI friction.
+I don't like how traditional interfaces force you through windows, menus, and mouse clicks. Nerva lets you express intent directly through natural language — the LLM kernel parses what you want and orchestrates the right tools and agents to make it happen. Typing-first, keyboard-driven, no GUI friction.
 
 ---
 
@@ -54,7 +54,7 @@ Nerva uses an OS-inspired architecture with an LLM at the core:
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    User Input                       │
-│                  (Natural Language)                  │
+│                  (Natural Language)                 │
 └─────────────────┬───────────────────────────────────┘
                   │
                   ▼
