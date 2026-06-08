@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerva | The LLM-Native OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS VARIABLES & THEME CONFIGURATION --- */
+        :root {
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition-speed: 0.3s;
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --bg-secondary: #f4f4f5;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --border-color: #e4e4e7;
+            --accent-color: #000000;
+            --accent-text: #ffffff;
+            --code-bg: #f1f1f1;
+        }
+
+        /* Dark Theme (Default/Cursor Style) */
+        [data-theme="dark"] {
+            --bg-color: #050505; /* Deep black like Cursor */
+            --bg-secondary: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: #27272a;
+            --accent-color: #ffffff;
+            --accent-text: #000000;
+            --code-bg: #111111;
+        }
+
+        /* --- RESET & BASE STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        a:hover { opacity: 0.7; }
+        ul { list-style: none; }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid transparent;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 8rem 0 6rem;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+            padding: 1rem 2.5rem;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 1px solid var(--accent-color);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3);
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        p, li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* --- ARCHITECTURE (ASCII/Image) --- */
+        .ascii-container {
+            background-color: var(--code-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .ascii-container figure { margin: 0; }
+        .ascii-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        pre {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+            overflow-x: auto;
+            text-align: left;
+        }
+
+        /* --- CODE BLOCKS --- */
+        code {
+            font-family: var(--font-mono);
+            background: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        .code-block code {
+            background: none;
+            padding: 0;
+            color: var(--text-secondary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-links a {
+            margin-left: 1.5rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .nav-right { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">NERVA</div>
+        <div class="nav-right">
+            <a href="https://github.com/SaiMani-Ritish/nerva" target="_blank">GitHub</a>
+            <a href="#docs">Docs</a>
+            <button class="theme-toggle" id="themeToggle">Light Mode</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero" style="border-top: none;">
+            <h1>The LLM-Native OS</h1>
+            <p>A typing-first OS where the LLM is the kernel, context is memory, and agents are apps. Minimize friction. Maximize flow.</p>
+            <a href="https://github.com/SaiMani-Ritish/nerva" class="cta-button">View Repository</a>
+        </section>
+
+        <section id="architecture">
+            <h2>Architecture</h2>
+            <p>Nerva lets you express intent directly through language, with the LLM routing your commands to the right tools and agents.</p>
+            
+            <div class="ascii-container">
+                <figure>
+                    <img src="C:/Users/sriha/Downloads/Nreva/Nerva_Flow_Diagram.png" alt="Nerva architecture diagram">
+                    <figcaption style="color:var(--text-secondary); font-size:0.9rem; text-align:center; margin-top:0.5rem;">Architecture diagram</figcaption>
+                </figure>
+            </div>
+
+            <div class="grid-2">
+                <div>
+                    <h3>Core Concepts</h3>
+                    <ul>
+                        <li><strong>LLM as kernel:</strong> The central orchestrator.</li>
+                        <li><strong>Context as memory:</strong> Active working memory buffers.</li>
+                        <li><strong>Tools as drivers:</strong> Controlled system capabilities.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>UX Principles</h3>
+                    <ul>
+                        <li><strong>Single input line:</strong> Intent via natural language.</li>
+                        <li><strong>Transcript-as-state:</strong> History is the UI.</li>
+                        <li><strong>Keyboard-first:</strong> No mouse required.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="quickstart">
+            <h2>Quickstart</h2>
+            <p>Get up and running with Node.js (v18+) and Python 3.10+.</p>
+
+            <h3>Install</h3>
+            <div class="code-block">
+<pre><code>git clone https://github.com/SaiMani-Ritish/Nerva.git
+cd Nerva
+pnpm install
+python -m venv venv
+pip install -r requirements.txt</code></pre>
+            </div>
+
+            <h3>Run Shell</h3>
+            <div class="code-block">
+<pre><code>pnpm dev
+nerva run shell</code></pre>
+            </div>
+
+            <h3>First Task</h3>
+            <p>Try typing: <code style="color:var(--text-primary)">"Index notes, suggest study plan, create tasks"</code></p>
+        </section>
+
+        <section id="config">
+            <h2>Configuration</h2>
+            <p>Nerva is designed to be hackable. Config files are located in <code>config/</code>.</p>
+            
+            <div class="grid-2">
+                <div>
+                    <h3>Models</h3>
+                    <p>Switch between local Llama models or Cloud providers like OpenAI/Anthropic seamlessly in <code>models.yaml</code>.</p>
+                </div>
+                <div>
+                    <h3>Tools</h3>
+                    <p>Enable/Disable filesystem access, web retrieval, and rate limits in <code>tools.yaml</code>.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="container">
+        <div class="footer-content">
+            <div>&copy; 2025 Nerva Project. Licensed under Apache-2.0.</div>
+            <div class="footer-links">
+                <a href="https://saimani-ritish.netlify.app/">Portfolio</a>
+                <a href="https://www.linkedin.com/in/sai-mani-ritish/">LinkedIn</a>
+                <a href="https://github.com/SaiMani-Ritish">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle Logic
+        const toggleButton = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Check local storage or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+            updateButtonText(savedTheme);
+        } else if (systemDark) {
+            htmlElement.setAttribute('data-theme', 'dark');
+            updateButtonText('dark');
+        }
+
+        toggleButton.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateButtonText(newTheme);
+        });
+
+        function updateButtonText(theme) {
+            toggleButton.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+        }
+    </script>
+</body>
+</html>
